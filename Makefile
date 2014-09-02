@@ -5,14 +5,18 @@
 
 ##based up http://archlinuxarm.org/platforms/armv6/raspberry-pi
 ARCH_URL=http://archlinuxarm.org/os/ArchLinuxARM-rpi-latest.tar.gz
+ARCH_FILE:=ArchLinuxARM-rpi-latest.tar.gz
 IMAGE_FILENAME=./image_file1
+
+MOUNT_FOLDER:="./mount"
+BOOT_FOLDER:=$(MOUNT_FOLDER)"/boot"
+ROOT_FOLDER:=$(MOUNT_FOLDER)"/root"
 
 
 
 # in Byte ; 2GiB * 1024 MiB    1024 KiB    1024 Byte
 #IMAGESIZE=$(shell echo $( 2   \*  1024     \*  1024  \*   1024 ))
-IMAGESIZE:=$(shell echo  2*1024*1024*1024 | bc  )
-#Sector size like my Raspbian image 
+IMAGESIZE:=$(shell echo  2*1024*1024*1024 | bc  )#Sector size like my Raspbian image 
 #  in Byte
 SECTORSIZE=512
 BLOCKSIZE=512
@@ -20,6 +24,9 @@ NEEDED_SECTOR_COUNT=$(shell echo ${IMAGESIZE} / ${SECTORSIZE} | bc )
 
 DEV_FLAT_FILE=./dev_node_name
 LO_DEVICE=$(shell cat ${DEV_FLAT_FILE})
+
+$(MOUNT_FOLDER) $(BOOT_FOLDER) $(ROOT_FOLDER):
+	mkdir -p
 
 $(IMAGE_FILENAME): 
 	echo "Creating image file size: " ${IMAGESIZE}
@@ -59,6 +66,46 @@ free_lo:
 	- sudo losetup -d $(LO_DEVICE)
 	- sudo rm $(DEV_FLAT_FILE)
 
+
+$(ARCH_FILE):
+	wget -c -O $(ARCH_FILE) $(ARCH_URL) 
+
+
+mount_boot: $(BOOT_FOLDER)
+	sudo mount $(LO_DEVICE)"p1"  $(BOOT_FOLDER)
+
+umount_boot: 
+	sudo umount $(BOOT_FOLDER)
+
+mount_root: $(ROOT_FOLDER)
+	sudo mount $(LO_DEVICE)"p2" $(ROOT_FOLDER)
+
+umount_root:
+	sudo umount $(ROOT_FOLDER)
+
+prepare_environment: $(ARCH_FILE) mount_boot mount_root
+		
+install_files:
+	tar -xf $(ARCH_FILE)  -C $(ROOT_FOLDER)
+	sync
+	mv $(ROOT_FOLDER)/boot/* $(BOOT_FOLDER)
+	
+cleanup_env: umount_boot umount_root 
+
+clean:
+	- rm $(IMAGE_FILENAME)
+	- rm -r $(MOUNT_FOLDER) 
+	- rm $(DEV_FLAT_FILE)
+	
+cleanall: clean 
+	- rm $(ARCH_FILE)
+
+
+
 do_format_only: get_lodevice format_p1 format_p2 free_lo 
 
 
+create_arch_image: $(IMAGE_FILENAME)  get_lodevice format_p1 format_p2 prepare_environment install_files cleanup_env free_lo
+
+  
+	
