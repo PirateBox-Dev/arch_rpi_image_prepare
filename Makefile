@@ -8,9 +8,9 @@ ARCH_URL=http://archlinuxarm.org/os/ArchLinuxARM-rpi-latest.tar.gz
 ARCH_FILE:=ArchLinuxARM-rpi-latest.tar.gz
 IMAGE_FILENAME=./image_file1
 
-MOUNT_FOLDER:="./mount"
-BOOT_FOLDER:=$(MOUNT_FOLDER)"/boot"
-ROOT_FOLDER:=$(MOUNT_FOLDER)"/root"
+MOUNT_FOLDER:=./mount
+BOOT_FOLDER:=$(MOUNT_FOLDER)/boot
+ROOT_FOLDER:=$(MOUNT_FOLDER)/root
 
 
 
@@ -26,7 +26,7 @@ DEV_FLAT_FILE=./dev_node_name
 LO_DEVICE=$(shell cat ${DEV_FLAT_FILE})
 
 $(MOUNT_FOLDER) $(BOOT_FOLDER) $(ROOT_FOLDER):
-	mkdir -p
+	mkdir -p  $@
 
 $(IMAGE_FILENAME): 
 	echo "Creating image file size: " ${IMAGESIZE}
@@ -86,9 +86,9 @@ umount_root:
 prepare_environment: $(ARCH_FILE) mount_boot mount_root
 		
 install_files:
-	tar -xf $(ARCH_FILE)  -C $(ROOT_FOLDER)
+	sudo tar -xf $(ARCH_FILE)  -C $(ROOT_FOLDER)
 	sync
-	mv $(ROOT_FOLDER)/boot/* $(BOOT_FOLDER)
+	sudo mv $(ROOT_FOLDER)/boot/* $(BOOT_FOLDER)
 	
 cleanup_env: umount_boot umount_root 
 
