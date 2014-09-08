@@ -6,7 +6,7 @@
 ##based up http://archlinuxarm.org/platforms/armv6/raspberry-pi
 ARCH_URL=http://archlinuxarm.org/os/ArchLinuxARM-rpi-latest.tar.gz
 ARCH_FILE:=ArchLinuxARM-rpi-latest.tar.gz
-IMAGE_FILENAME=./image_file1
+IMAGE_FILENAME=./image_file 
 
 MOUNT_FOLDER:=./mount
 BOOT_FOLDER:=$(MOUNT_FOLDER)/boot
@@ -36,8 +36,8 @@ $(IMAGE_FILENAME):
 	echo "    Results in "$(IMAGESIZE)" B "
 	dd if=/dev/zero of=$@  bs=$(BLOCKSIZE)  count=$(NEEDED_SECTOR_COUNT)
 
-$(DEV_FLAT_FILE):
-	$(shell sudo losetup --find --show $(IMAGE_FILENAME) > $(DEV_FLAT_FILE) )
+$(DEV_FLAT_FILE): 
+	$(shell sudo losetup --partscan  --find --show $(IMAGE_FILENAME) > $(DEV_FLAT_FILE) )
 
 get_lodevice: $(DEV_FLAT_FILE)
 	echo "got: " $(LO_DEVICE)
@@ -71,13 +71,13 @@ $(ARCH_FILE):
 	wget -c -O $(ARCH_FILE) $(ARCH_URL) 
 
 
-mount_boot: $(BOOT_FOLDER)
+mount_boot: $(BOOT_FOLDER) get_lodevice
 	sudo mount $(LO_DEVICE)"p1"  $(BOOT_FOLDER)
 
 umount_boot: 
 	sudo umount $(BOOT_FOLDER)
 
-mount_root: $(ROOT_FOLDER)
+mount_root: $(ROOT_FOLDER) get_lodevice
 	sudo mount $(LO_DEVICE)"p2" $(ROOT_FOLDER)
 
 umount_root:
@@ -105,7 +105,7 @@ cleanall: clean
 do_format_only: get_lodevice format_p1 format_p2 free_lo 
 
 
-create_arch_image: $(IMAGE_FILENAME)  get_lodevice format_p1 format_p2 prepare_environment install_files cleanup_env free_lo
+create_arch_image: $(IMAGE_FILENAME) partitions  get_lodevice format_p1 format_p2 prepare_environment install_files cleanup_env free_lo
 
   
 	
