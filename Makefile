@@ -6,7 +6,7 @@
 ##based up http://archlinuxarm.org/platforms/armv6/raspberry-pi
 ARCH_URL=http://archlinuxarm.org/os/ArchLinuxARM-rpi-latest.tar.gz
 ARCH_FILE:=ArchLinuxARM-rpi-latest.tar.gz
-IMAGE_FILENAME=./image_file 
+IMAGE_FILENAME=./raw_arch_image_file 
 
 MOUNT_FOLDER:=./mount
 BOOT_FOLDER:=$(MOUNT_FOLDER)/boot

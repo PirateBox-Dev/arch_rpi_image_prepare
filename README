@@ -1,0 +1,12 @@
+Tools to autocreate a SDCARD 2GB image based upon latest arch sources.
+
+Requirements:
+	- sudo environment
+	- losetup from util-linux 2.2  (at least)
+	- mkfs.vat
+	- mkfs.ext4
+	- wget
+	- fdisk
+
+
+
