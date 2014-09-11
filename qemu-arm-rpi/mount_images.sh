@@ -13,7 +13,8 @@ sudo pacman --noconfirm -r /mnt/image -U librarybox-full*
 --- Todo wiht package  and dependecy 
 --- config tools
 
-
+## cleanup Image
+sudo pacman --noconfirm -r /mnt/image -Scc
 
 
 
