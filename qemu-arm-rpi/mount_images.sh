@@ -6,12 +6,16 @@ sudo mount -o bind /dev  /mnt/image/dev
 sudo pacman --noconfirm -r /mnt/image -Sy
 sudo pacman --noconfirm -r /mnt/image -U prebuild/*pkg.tar.xz 
 
-TODO -- aquire librarybox package
+#TODO -- aquire librarybox package
 
 sudo pacman --noconfirm -r /mnt/image -U librarybox-full* 
 
---- Todo wiht package  and dependecy 
---- config tools
+##--- additional wifi stuff
+sudo pacman --noconfirm -r /mnt/image -S dkms-8188eu dkms-8188cu
+
+
+
+##--- config tools
 
 ## cleanup Image
 sudo pacman --noconfirm -r /mnt/image -Scc
