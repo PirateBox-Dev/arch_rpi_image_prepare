@@ -9,4 +9,28 @@ Requirements:
 	- fdisk
 
 
+Step 1:
+	Aquire all needed LibraryBox packages into staging_packages
 
+Step 2:
+	Run make create_arch_image
+
+Step 3:
+	Create a woring qemu image once.
+		# Need to be done once
+		cd qemu-arm-rpi
+		cp ../raw_arch_image_file  install_qemu_image
+		./run_qemu.sh  #need X
+
+	The first bootup will fail. So we fix the fstab entry for that
+	(maintenance password: root)
+		echo "" > /etc/fstab
+		reboot
+	Rerun
+		./run_qemu.sh	Rerun
+		
+	Enable network after login (root/root)
+	dhcpcd eth0
+
+Step 4:
+	Run  inside the running and working qemu 
