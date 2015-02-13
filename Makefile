@@ -12,11 +12,11 @@ MOUNT_FOLDER:=./mount
 BOOT_FOLDER:=$(MOUNT_FOLDER)/boot
 ROOT_FOLDER:=$(MOUNT_FOLDER)/root
 
-SRC_PACAKGE_FOLDER:=./pre_build_packages
+SRC_PACKAGE_FOLDER:="./pre_build_packages"
 TGT_PACKAGE_FOLDER:=$(ROOT_FOLDER)/prebuild
 
 ## LibraryBox Specific pacakges
-SRC_STAGING_FOLDER:=./staging_packages     
+SRC_STAGING_FOLDER:="./staging_packages"
 TGT_STAGING_FOLDER:=$(TGT_PACKAGE_FOLDER)/staging
 
 ##Image_Prepare-Script
@@ -59,6 +59,7 @@ partitions:
 	echo "Creating partitions"
 	cat fdisk_cmd.txt | sudo fdisk    $(IMAGE_FILENAME) 
 	sync
+	
 
 
 format_p1:
@@ -96,9 +97,9 @@ prepare_environment: $(ARCH_FILE) mount_boot mount_root
 install_files:
 	sudo tar -xf $(ARCH_FILE)  -C $(ROOT_FOLDER)
 	sudo mkdir -p $(TGT_PACKAGE_FOLDER)
-	sudo cp -rv $(SRC_PACAKGE_FOLDER)/* $(TGT_PACKAGE_FOLDER)
+	sudo cp -rv $(SRC_PACKAGE_FOLDER)/* $(TGT_PACKAGE_FOLDER)
 	sudo mkdir -p $(TGT_STAGING_FOLDER)
-	sudo cp -rv $(SRC_STAGING_FOLDER)/* $(TGT_STAGING_FOLDER)
+	- sudo cp -rv $(SRC_STAGING_FOLDER)/* $(TGT_STAGING_FOLDER)
 	sudo cp $(IMAGE_PREPARE) $(TGT_STAGING_FOLDER)
 	sync
 	sudo mv $(ROOT_FOLDER)/boot/* $(BOOT_FOLDER)
@@ -115,7 +116,7 @@ cleanall: clean
 
 do_format_only: get_lodevice format_p1 format_p2 free_lo 
 
-create_arch_image: $(IMAGE_FILENAME) partitions  get_lodevice format_p1 format_p2 prepare_environment install_files cleanup_env free_lo
+create_arch_image: $(IMAGE_FILENAME) partitions get_lodevice format_p1 format_p2 prepare_environment install_files cleanup_env free_lo
 
   
 	
