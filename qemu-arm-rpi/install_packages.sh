@@ -62,7 +62,7 @@ $SUDO pacman --noconfirm -r /mnt/image -U /prebuild/*pkg.tar.xz
 $SUDO pacman --noconfirm -r /mnt/image -U /prebuild/staging/*pkg.tar.xz 
 
 ## Basic dependencies
-$SUDO pacman --noconfirm -r /mnt/image -S python2 lighttpd bash iw hostapd dnsmasq bridge-utils avahi wget wireless_tools netctl perl iptables zip unzip cronie net-tools 
+$SUDO pacman --noconfirm -r /mnt/image -S python2 lighttpd bash iw hostapd dnsmasq bridge-utils avahi wget wireless_tools netctl perl iptables zip unzip cronie net-tools community/perl-cgi
 
 $SUDO pacman --noconfirm -r /mnt/image -S radvd proftpd php php-cgi php-sqlite lftp imagemagick php-gd 
 
