@@ -8,7 +8,7 @@
   groupadd nogroup && usermod -a -G nogroup nobody
   /opt/piratebox/bin/install_piratebox.sh  /opt/piratebox/conf/piratebox.conf  part2
   /opt/piratebox/bin/install_piratebox.sh  /opt/piratebox/conf/piratebox.conf imageboard
-  cp /prebuild/staging/piratebox.service  /etc/systemd/system 
+  cp /prebuild/staging/*.service  /etc/systemd/system 
   cp /prebuild/staging/RPi_motd.txt /etc/motd
 
 
