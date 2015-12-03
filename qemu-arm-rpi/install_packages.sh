@@ -6,6 +6,7 @@
 ##    - It requires a working internet connection for downloading the dependencies
 ##
 
+BRAND=piratebox
 
 ### Template for building different arch packages
 build_aur(){
@@ -75,11 +76,11 @@ mount -o bind /proc /mnt/image/proc
 cp /etc/resolv.conf /mnt/image/etc
 
 ### Copy over working script
-cp /prebuild/staging/piratebox_install.sh /mnt/image
-chmod u+x /mnt/image/piratebox_install.sh
+cp /prebuild/staging/${BRAND}_install.sh /mnt/image
+chmod u+x /mnt/image/${BRAND}_install.sh
 
 ## Enter chroot and execute install-steps
-chroot /mnt/image /piratebox_install.sh
+chroot /mnt/image "/${BRAND}_install.sh"
 
 #echo "if you are done run:"
 #echo "umount -R /mnt/image"
