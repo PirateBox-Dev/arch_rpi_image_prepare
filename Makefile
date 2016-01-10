@@ -21,6 +21,7 @@ TGT_STAGING_FOLDER:=$(TGT_PACKAGE_FOLDER)/staging
 
 ##Image_Prepare-Script
 IMAGE_PREPARE=./qemu-arm-rpi/install_packages.sh
+IMAGE_FINALIZE=./qemu-arm-rpi/piratebox_install.sh
 
 # in Byte ; 2GiB * 1024 MiB    1024 KiB    1024 Byte
 #IMAGESIZE=$(shell echo $( 2   \*  1024     \*  1024  \*   1024 ))
@@ -101,6 +102,7 @@ install_files:
 	sudo mkdir -p $(TGT_STAGING_FOLDER)
 	- sudo cp -rv $(SRC_STAGING_FOLDER)/* $(TGT_STAGING_FOLDER)
 	sudo cp $(IMAGE_PREPARE) $(TGT_STAGING_FOLDER)
+	sudo cp $(IMAGE_FINALIZE) $(TGT_STAGING_FOLDER)
 	sync
 	sudo mv $(ROOT_FOLDER)/boot/* $(BOOT_FOLDER)
 	
