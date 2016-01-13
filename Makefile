@@ -29,6 +29,11 @@ TGT_PACKAGE_FOLDER:=$(ROOT_FOLDER)/prebuild
 SRC_STAGING_FOLDER:="./staging_packages"
 TGT_STAGING_FOLDER:=$(TGT_PACKAGE_FOLDER)/staging
 
+## Staging packages
+SERVICE_PIRATEBOX_URL:=https://raw.githubusercontent.com/PirateBox-Dev/PirateBoxScripts_Webserver/master/BuildScripts/piratebox.service
+SERVICE_TIMESAVE_URL:=https://raw.githubusercontent.com/PirateBox-Dev/PirateBoxScripts_Webserver/master/BuildScripts/timesave.service
+MOTD_URL:=https://raw.githubusercontent.com/PirateBox-Dev/PirateBoxScripts_Webserver/master/BuildScripts/RPi_motd.txt
+
 ##Image_Prepare-Script
 IMAGE_PREPARE=./qemu-arm-rpi/install_packages.sh
 IMAGE_FINALIZE=./qemu-arm-rpi/piratebox_install.sh
@@ -87,6 +92,12 @@ free_lo:
 
 $(ARCH_FILE):
 	wget -c -O $(ARCH_FILE) $(ARCH_URL)
+
+get_staging:
+	@echo "Obtaining staging packages..."
+	wget -q -c -P $(SRC_STAGING_FOLDER) $(SERVICE_PIRATEBOX_URL)
+	wget -q -c -P $(SRC_STAGING_FOLDER) $(SERVICE_TIMESAVE_URL)
+	wget -q -c -P $(SRC_STAGING_FOLDER) $(MOTD_URL)
 
 mount_boot: $(BOOT_FOLDER) get_lodevice
 	sudo mount $(LO_DEVICE)"p1"  $(BOOT_FOLDER)
