@@ -57,7 +57,7 @@ partitions:
 ## Then with first n -> 100MB dos partition
 ##           2nd   n -> fill the rest with another primary partition
 	@echo "Creating partitions..."
-	cat fdisk_cmd.txt | sudo fdisk $(IMAGE_FILENAME)
+	cat fdisk_cmd.txt | sudo fdisk $(IMAGE_FILENAME) > /dev/null
 	sync
 
 format: format_p1 format_p2
