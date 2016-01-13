@@ -48,7 +48,7 @@ $(DEV_FLAT_FILE):
 	$(shell sudo losetup --partscan  --find --show $(IMAGE_FILENAME) > $(DEV_FLAT_FILE) )
 
 get_lodevice: $(DEV_FLAT_FILE)
-	@echo "got: " $(LO_DEVICE)
+	@echo "Using loopback device: " $(LO_DEVICE)
 
 partitions:
 #Partitions
@@ -92,7 +92,7 @@ umount_root:
 prepare_environment: $(ARCH_FILE) mount_boot mount_root
 
 install_files:
-	sudo tar -xf $(ARCH_FILE)  -C $(ROOT_FOLDER)
+	sudo tar -xf $(ARCH_FILE) -C $(ROOT_FOLDER) --warning=none
 	sudo mkdir -p $(TGT_PACKAGE_FOLDER)
 	sudo cp -rv $(SRC_PACKAGE_FOLDER)/* $(TGT_PACKAGE_FOLDER)
 	sudo mkdir -p $(TGT_STAGING_FOLDER)
