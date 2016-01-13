@@ -37,11 +37,11 @@ $(MOUNT_FOLDER) $(BOOT_FOLDER) $(ROOT_FOLDER):
 	mkdir -p  $@
 
 $(IMAGE_FILENAME):
-	@echo "Creating image file size: " ${IMAGESIZE}
-	@echo " .. Filename " $(IMAGE_FILENAME)
-	@echo "    Blocksize " $(BLOCKSIZE)
-	@echo "    Needed Sectors " $(NEEDED_SECTOR_COUNT)
-	@echo "    Results in "$(IMAGESIZE)" B "
+	@echo "Creating image file"
+	@echo "* Filename\t$(IMAGE_FILENAME)"
+	@echo "* Blocksize\t$(BLOCKSIZE)"
+	@echo "* Sectors\t$(NEEDED_SECTOR_COUNT)"
+	@echo "* Total size\t$(IMAGESIZE) Bytes"
 	dd if=/dev/zero of=$@  bs=$(BLOCKSIZE)  count=$(NEEDED_SECTOR_COUNT)
 
 $(DEV_FLAT_FILE):
