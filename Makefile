@@ -114,10 +114,9 @@ umount_root:
 prepare_environment: $(ARCH_FILE) mount_boot mount_root
 
 install_files:
+	sudo mkdir -p $(TGT_PACKAGE_FOLDER) $(TGT_STAGING_FOLDER)
 	sudo tar -xf $(ARCH_FILE) -C $(ROOT_FOLDER) --warning=none
-	sudo mkdir -p $(TGT_PACKAGE_FOLDER)
 	sudo cp -rv $(SRC_PACKAGE_FOLDER)/$(ARCH)/* $(TGT_PACKAGE_FOLDER)
-	sudo mkdir -p $(TGT_STAGING_FOLDER)
 	- sudo cp -rv $(SRC_STAGING_FOLDER)/* $(TGT_STAGING_FOLDER)
 	sudo cp $(IMAGE_PREPARE) $(TGT_STAGING_FOLDER)
 	sudo cp $(IMAGE_FINALIZE) $(TGT_STAGING_FOLDER)
