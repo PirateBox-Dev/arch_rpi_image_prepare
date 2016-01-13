@@ -5,13 +5,13 @@
 ARCH?=rpi
 
 ifeq ($(ARCH),rpi)
-##based up http://archlinuxarm.org/platforms/armv6/raspberry-pi
+## based on http://archlinuxarm.org/platforms/armv6/raspberry-pi
 ARCH_URL=http://archlinuxarm.org/os/ArchLinuxARM-rpi-latest.tar.gz
 ARCH_FILE:=ArchLinuxARM-rpi-latest.tar.gz
 endif
 
 ifeq ($(ARCH),rpi2)
-##         http://archlinuxarm.org/platforms/armv7/broadcom/raspberry-pi-2
+## based on http://archlinuxarm.org/platforms/armv7/broadcom/raspberry-pi-2
 ARCH_URL=http://archlinuxarm.org/os/ArchLinuxARM-rpi-2-latest.tar.gz
 ARCH_FILE:=ArchLinuxARM-rpi-2-latest.tar.gz
 endif
