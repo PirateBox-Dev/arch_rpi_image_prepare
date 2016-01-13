@@ -64,11 +64,11 @@ format: format_p1 format_p2
 
 format_p1:
 	@echo "Formatting boot partition..."
-	sudo  mkfs.vfat $(LO_DEVICE)"p1"
+	sudo  mkfs.vfat "$(LO_DEVICE)p1" > /dev/null
 
 format_p2:
 	@echo "Formatting root partition..."
-	sudo  mkfs.ext4 $(LO_DEVICE)"p2"
+	sudo  mkfs.ext4 "$(LO_DEVICE)p2" > /dev/null
 
 free_lo:
 	- sudo losetup -d $(LO_DEVICE)
