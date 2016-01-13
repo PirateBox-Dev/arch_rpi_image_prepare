@@ -49,6 +49,8 @@ NEEDED_SECTOR_COUNT=$(shell echo ${IMAGESIZE} / ${SECTORSIZE} | bc )
 DEV_FLAT_FILE=./dev_node_name
 LO_DEVICE=$(shell cat ${DEV_FLAT_FILE})
 
+all: create_arch_image
+
 $(MOUNT_FOLDER) $(BOOT_FOLDER) $(ROOT_FOLDER):
 	mkdir -p  $@
 
@@ -122,6 +124,9 @@ install_files:
 	sudo cp $(IMAGE_FINALIZE) $(TGT_STAGING_FOLDER)
 	sudo mv $(ROOT_FOLDER)/boot/* $(BOOT_FOLDER)
 	@sync
+
+qemu:
+	cp $(ARCH_FILE) qemu-arm-rpi/install_qemu_image
 
 cleanup_env: umount_boot umount_root
 
