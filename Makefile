@@ -37,18 +37,18 @@ $(MOUNT_FOLDER) $(BOOT_FOLDER) $(ROOT_FOLDER):
 	mkdir -p  $@
 
 $(IMAGE_FILENAME):
-	echo "Creating image file size: " ${IMAGESIZE}
-	echo " .. Filename " $(IMAGE_FILENAME)
-	echo "    Blocksize " $(BLOCKSIZE)
-	echo "    Needed Sectors " $(NEEDED_SECTOR_COUNT)
-	echo "    Results in "$(IMAGESIZE)" B "
+	@echo "Creating image file size: " ${IMAGESIZE}
+	@echo " .. Filename " $(IMAGE_FILENAME)
+	@echo "    Blocksize " $(BLOCKSIZE)
+	@echo "    Needed Sectors " $(NEEDED_SECTOR_COUNT)
+	@echo "    Results in "$(IMAGESIZE)" B "
 	dd if=/dev/zero of=$@  bs=$(BLOCKSIZE)  count=$(NEEDED_SECTOR_COUNT)
 
 $(DEV_FLAT_FILE):
 	$(shell sudo losetup --partscan  --find --show $(IMAGE_FILENAME) > $(DEV_FLAT_FILE) )
 
 get_lodevice: $(DEV_FLAT_FILE)
-	echo "got: " $(LO_DEVICE)
+	@echo "got: " $(LO_DEVICE)
 
 partitions:
 #Partitions
@@ -56,17 +56,17 @@ partitions:
 ## Empty Partionts
 ## Then with first n -> 100MB dos partition
 ##           2nd   n -> fill the rest with another primary partition
-	echo "Creating partitions"
-	cat fdisk_cmd.txt | sudo fdisk    $(IMAGE_FILENAME)
+	@echo "Creating partitions..."
+	cat fdisk_cmd.txt | sudo fdisk $(IMAGE_FILENAME)
 	sync
 
 format_p1:
-	echo "Formatting discs"
-	echo " ... Format  boot partition"
+	@echo "Formatting discs"
+	@echo " ... Format  boot partition"
 	sudo  mkfs.vfat $(LO_DEVICE)"p1"
 
 format_p2:
-	echo " ... Format  root partition"
+	@echo " ... Format  root partition"
 	sudo  mkfs.ext4 $(LO_DEVICE)"p2"
 
 free_lo:
