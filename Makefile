@@ -74,7 +74,7 @@ partitions:
 ##           2nd   n -> fill the rest with another primary partition
 	@echo "Creating partitions..."
 	cat fdisk_cmd.txt | sudo fdisk $(IMAGE_FILENAME) > /dev/null
-	sync
+	@sync
 
 format: format_p1 format_p2
 
@@ -121,8 +121,8 @@ install_files:
 	- sudo cp -rv $(SRC_STAGING_FOLDER)/* $(TGT_STAGING_FOLDER)
 	sudo cp $(IMAGE_PREPARE) $(TGT_STAGING_FOLDER)
 	sudo cp $(IMAGE_FINALIZE) $(TGT_STAGING_FOLDER)
-	sync
 	sudo mv $(ROOT_FOLDER)/boot/* $(BOOT_FOLDER)
+	@sync
 
 cleanup_env: umount_boot umount_root
 
@@ -132,6 +132,7 @@ clean: cleanup_env free_lo
 
 cleanall: clean
 	- rm $(ARCH_FILE)
+	- rm $(SRC_STAGING_FOLDER)/*
 
 do_format_only: get_lodevice format free_lo
 
