@@ -60,13 +60,14 @@ partitions:
 	cat fdisk_cmd.txt | sudo fdisk $(IMAGE_FILENAME)
 	sync
 
+format: format_p1 format_p2
+
 format_p1:
-	@echo "Formatting discs"
-	@echo " ... Format  boot partition"
+	@echo "Formatting boot partition..."
 	sudo  mkfs.vfat $(LO_DEVICE)"p1"
 
 format_p2:
-	@echo " ... Format  root partition"
+	@echo "Formatting root partition..."
 	sudo  mkfs.ext4 $(LO_DEVICE)"p2"
 
 free_lo:
@@ -110,6 +111,6 @@ clean: cleanup_env free_lo
 cleanall: clean
 	- rm $(ARCH_FILE)
 
-do_format_only: get_lodevice format_p1 format_p2 free_lo
+do_format_only: get_lodevice format free_lo
 
-create_arch_image: $(IMAGE_FILENAME) partitions get_lodevice format_p1 format_p2 prepare_environment install_files cleanup_env free_lo
+create_arch_image: $(IMAGE_FILENAME) partitions get_lodevice format prepare_environment install_files cleanup_env free_lo
