@@ -3,9 +3,20 @@
 #     An arbitrary precision calculator language 
 
 
+ARCH?=rpi
+
+ifeq ($(ARCH),rpi)
 ##based up http://archlinuxarm.org/platforms/armv6/raspberry-pi
 ARCH_URL=http://archlinuxarm.org/os/ArchLinuxARM-rpi-latest.tar.gz
 ARCH_FILE:=ArchLinuxARM-rpi-latest.tar.gz
+endif
+ifeq ($(ARCH),rpi2)
+##         http://archlinuxarm.org/platforms/armv7/broadcom/raspberry-pi-2
+ARCH_URL=http://archlinuxarm.org/os/ArchLinuxARM-rpi-2-latest.tar.gz
+ARCH_FILE:=ArchLinuxARM-rpi-2-latest.tar.gz
+endif
+
+
 IMAGE_FILENAME=./raw_arch_image_file 
 
 MOUNT_FOLDER:=./mount
@@ -98,7 +109,7 @@ prepare_environment: $(ARCH_FILE) mount_boot mount_root
 install_files:
 	sudo tar -xf $(ARCH_FILE)  -C $(ROOT_FOLDER)
 	sudo mkdir -p $(TGT_PACKAGE_FOLDER)
-	sudo cp -rv $(SRC_PACKAGE_FOLDER)/* $(TGT_PACKAGE_FOLDER)
+	sudo cp -rv $(SRC_PACKAGE_FOLDER)/$(ARCH)/* $(TGT_PACKAGE_FOLDER)
 	sudo mkdir -p $(TGT_STAGING_FOLDER)
 	- sudo cp -rv $(SRC_STAGING_FOLDER)/* $(TGT_STAGING_FOLDER)
 	sudo cp $(IMAGE_PREPARE) $(TGT_STAGING_FOLDER)
