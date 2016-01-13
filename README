@@ -1,16 +1,21 @@
-Tools to autocreate a SDCARD 2GB image based upon latest arch sources.
+# Arch RPI Image Prepare
+This repository contains tools to create a 2GB SD card image based upon latest arch sources.
 
-Requirements:
-	- sudo environment
-	- losetup from util-linux 2.2  (at least)
-	- mkfs.vat
-	- mkfs.ext4
-	- wget
-	- fdisk
+## Required Tools
+To create an image you will need to have the following tools available on your system:
+* sudo environment
+* losetup from util-linux 2.2  (at least)
+* mkfs.vfat
+* mkfs.ext4
+* wget
+* fdisk
+* bc
 
-
-Step 1:
-	Aquire all needed LibraryBox packages into staging_packages
+## Build the image
+Run the following make target to acquire all dependencies and build the image:
+```Bash
+make create_arch_image
+```
 
 Step 2:
 	Run make create_arch_image
@@ -28,9 +33,9 @@ Step 3:
 		reboot
 	Rerun
 		./run_qemu.sh	Rerun
-		
+
 	Enable network after login (root/root)
 	dhcpcd eth0
 
 Step 4:
-	Run  inside the running and working qemu 
+	Run  inside the running and working qemu
