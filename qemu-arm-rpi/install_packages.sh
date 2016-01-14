@@ -34,23 +34,23 @@ build_aur(){
 ## Read some build info, like architecture CARCH
 . /etc/makepkg.conf
 
-pacman --noconfirm  -Sy wget sudo base-devel
+pacman --needed --noconfirm -Sy wget sudo base-devel
 
 #### Create Package-PreBuild for start-stop-daemon
 build_aur start-stop-daemon "https://aur.archlinux.org/cgit/aur.git/snapshot/start-stop-daemon.tar.gz"
-
 build_aur proftpd "https://aur.archlinux.org/cgit/aur.git/snapshot/proftpd.tar.gz"
 
 ##--- additional wifi stuff
 ## verify ... $SUDO pacman --noconfirm -r /mnt/image -S dkms-8188eu dkms-8192cu
 
 #-- aquire (pre) built package
-pacman --noconfirm -U /prebuild/*pkg.tar.xz
+pacman --needed --noconfirm -U /prebuild/*pkg.tar.xz
 
 ## Basic dependencies
-pacman --noconfirm -S python2 lighttpd bash iw hostapd dnsmasq bridge-utils avahi wget wireless_tools netctl perl iptables zip unzip cronie net-tools community/perl-cgi minidlna
+pacman --needed --noconfirm -S python2 lighttpd bash iw hostapd dnsmasq bridge-utils avahi wget wireless_tools netctl perl iptables zip unzip cronie net-tools community/perl-cgi minidlna
 
-pacman --noconfirm -S radvd proftpd php php-cgi php-sqlite lftp imagemagick php-gd
+## PHP related dependencies
+pacman --needed --noconfirm -S radvd proftpd php php-cgi php-sqlite lftp imagemagick php-gd
 
 ## cleanup Image
 pacman --noconfirm -Scc
