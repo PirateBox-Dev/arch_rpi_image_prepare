@@ -111,14 +111,10 @@ mount_root: $(ROOT_FOLDER) get_lodevice
 umount: umount_boot umount_root
 
 umount_boot:
-ifneq ("$(wildcard $(BOOT_FOLDER))", "")
-	sudo umount $(BOOT_FOLDER)
-endif
+	- sudo umount $(BOOT_FOLDER)
 
 umount_root:
-ifneq ("$(wildcard $(ROOT_FOLDER))", "")
-	sudo umount $(ROOT_FOLDER)
-endif
+	- sudo umount $(ROOT_FOLDER)
 
 prepare_environment: $(ARCH_FILE) get_staging mount_boot mount_root
 
@@ -141,7 +137,7 @@ chroot: chroot_prepare
 	@echo "## Installing PirateBox..."
 	sudo chroot $(ROOT_FOLDER) sh -c "/prebuild/staging/piratebox_install.sh > /dev/null"
 
-chroot_prepare: chroot_cleanup
+chroot_prepare:
 	@echo "## Preparing chroot environment..."
 	- sudo mv $(ROOT_FOLDER)/etc/resolv.conf $(ROOT_FOLDER)/etc/resolv.conf.bak > /dev/null
 	sudo cp /etc/resolv.conf $(ROOT_FOLDER)/etc/resolv.conf > /dev/null
@@ -153,7 +149,7 @@ chroot_cleanup:
 
 clean: chroot_cleanup umount free_lo
 	rm -f $(IMAGE_FILENAME) > /dev/null
-	sudo rm -rf $(MOUNT_FOLDER) /dev/null
+	sudo rm -rf $(MOUNT_FOLDER) > /dev/null
 
 cleanall: clean
 	rm -f $(ARCH_FILE)
