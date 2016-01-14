@@ -11,6 +11,7 @@ To create an image you will need to have the following tools available on your s
 * fdisk
 * bc
 * qemu-system-arm
+* pv
 
 ## Build The Base Image
 Invoke the **create_arch_image** target to acquire all dependencies and build the image:
@@ -32,3 +33,9 @@ For your convenience there is an **all** target to build the base image and inst
 ```Bash
 make all
 ```
+or simply:
+```Bash
+make
+```
+
+## Testing via Qemu
