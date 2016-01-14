@@ -49,7 +49,8 @@ NEEDED_SECTOR_COUNT=$(shell echo ${IMAGESIZE} / ${SECTORSIZE} | bc )
 DEV_FLAT_FILE=./dev_node_name
 LO_DEVICE=$(shell cat ${DEV_FLAT_FILE})
 
-all: create_arch_image
+all: $(IMAGE_FILENAME) partitions get_lodevice format prepare_environment \
+	install_files chroot chroot_cleanup _env free_lo
 
 $(MOUNT_FOLDER) $(BOOT_FOLDER) $(ROOT_FOLDER):
 	mkdir -p  $@
@@ -102,18 +103,18 @@ get_staging:
 	wget -q -c -P $(SRC_STAGING_FOLDER) $(MOTD_URL)
 
 mount_boot: $(BOOT_FOLDER) get_lodevice
-	sudo mount $(LO_DEVICE)"p1"  $(BOOT_FOLDER)
+	sudo mount "$(LO_DEVICE)p1"  $(BOOT_FOLDER)
 
 umount_boot:
 	- sudo umount $(BOOT_FOLDER)
 
 mount_root: $(ROOT_FOLDER) get_lodevice
-	sudo mount $(LO_DEVICE)"p2" $(ROOT_FOLDER)
+	sudo mount "$(LO_DEVICE)p2" $(ROOT_FOLDER)
 
 umount_root:
 	- sudo umount $(ROOT_FOLDER)
 
-prepare_environment: $(ARCH_FILE) mount_boot mount_root
+prepare_environment: $(ARCH_FILE) get_staging mount_boot mount_root
 
 install_files:
 	sudo mkdir -p $(TGT_PACKAGE_FOLDER) $(TGT_STAGING_FOLDER)
@@ -123,14 +124,25 @@ install_files:
 	sudo cp $(IMAGE_PREPARE) $(TGT_STAGING_FOLDER)
 	sudo cp $(IMAGE_FINALIZE) $(TGT_STAGING_FOLDER)
 	sudo mv $(ROOT_FOLDER)/boot/* $(BOOT_FOLDER)
+	sudo cp /usr/bin/qemu-arm-static $(ROOT_FOLDER)/usr/bin
 	@sync
 
-qemu:
-	cp $(ARCH_FILE) qemu-arm-rpi/install_qemu_image
+chroot: chroot_prepare
+	sudo chroot $(ROOT_FOLDER) /prebuild/staging/install_packages.sh
+	sudo chroot $(ROOT_FOLDER) /prebuild/staging/piratebox_install.sh
+
+chroot_prepare: chroot_cleanup
+	- sudo mv $(ROOT_FOLDER)/etc/resolv.conf $(ROOT_FOLDER)/etc/resolv.conf.bak
+	sudo cp /etc/resolv.conf $(ROOT_FOLDER)/etc/resolv.conf
+	sudo mount -t proc proc $(ROOT_FOLDER)/proc/
+
+chroot_cleanup:
+	- sudo mv $(ROOT_FOLDER)/etc/resolv.conf.bak $(ROOT_FOLDER)/etc/resolv.conf
+	- sudo umount $(ROOT_FOLDER)/proc/
 
 cleanup_env: umount_boot umount_root
 
-clean: cleanup_env free_lo
+clean: chroot_cleanup cleanup_env free_lo
 	- rm $(IMAGE_FILENAME)
 	- rm -r $(MOUNT_FOLDER)
 
