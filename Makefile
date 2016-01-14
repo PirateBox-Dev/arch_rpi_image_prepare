@@ -50,7 +50,7 @@ DEV_FLAT_FILE=./dev_node_name
 LO_DEVICE=$(shell cat ${DEV_FLAT_FILE})
 
 all: $(IMAGE_FILENAME) partitions get_lodevice format prepare_environment \
-	install_files chroot chroot_cleanup _env free_lo
+	install_files chroot chroot_cleanup cleanup_env free_lo
 
 $(MOUNT_FOLDER) $(BOOT_FOLDER) $(ROOT_FOLDER):
 	mkdir -p  $@
