@@ -31,9 +31,6 @@ build_aur(){
   fi
 }
 
-DEV_NODE=/dev/sdb2
-SUDO=""
-
 ## Read some build info, like architecture CARCH
 . /etc/makepkg.conf
 
@@ -44,45 +41,16 @@ build_aur start-stop-daemon "https://aur.archlinux.org/cgit/aur.git/snapshot/sta
 
 build_aur proftpd "https://aur.archlinux.org/cgit/aur.git/snapshot/proftpd.tar.gz"
 
-
-#$SUDO mkdir -p /mnt/image
-#$SUDO mount $DEV_NODE /mnt/image
-#$SUDO mount -o bind /proc /mnt/image/proc
-#$SUDO mount -o bind /dev  /mnt/image/dev
-
-#$SUDO pacman --noconfirm -r /mnt/image -Sy
-#$SUDO pacman --noconfirm -r /mnt/image -U /prebuild/*pkg.tar.xz
-
-
 ##--- additional wifi stuff
 ## verify ... $SUDO pacman --noconfirm -r /mnt/image -S dkms-8188eu dkms-8192cu
 
-
 #-- aquire (pre) built package
-$SUDO pacman --noconfirm -U /prebuild/staging/*pkg.tar.xz
+pacman --noconfirm -U /prebuild/*pkg.tar.xz
 
 ## Basic dependencies
-$SUDO pacman --noconfirm -S python2 lighttpd bash iw hostapd dnsmasq bridge-utils avahi wget wireless_tools netctl perl iptables zip unzip cronie net-tools community/perl-cgi minidlna
+pacman --noconfirm -S python2 lighttpd bash iw hostapd dnsmasq bridge-utils avahi wget wireless_tools netctl perl iptables zip unzip cronie net-tools community/perl-cgi minidlna
 
-$SUDO pacman --noconfirm -S radvd proftpd php php-cgi php-sqlite lftp imagemagick php-gd
+pacman --noconfirm -S radvd proftpd php php-cgi php-sqlite lftp imagemagick php-gd
 
 ## cleanup Image
-$SUDO pacman --noconfirm -Scc
-
-### Prepare chroot environment
-#mount -o bind /run /mnt/image/run
-#mount -o bind /dev /mnt/image/dev
-#mount -o bind /proc /mnt/image/proc
-#cp /etc/resolv.conf /mnt/image/etc
-
-### Copy over working script
-#cp /prebuild/staging/${BRAND}_install.sh /mnt/image
-#chmod u+x /mnt/image/${BRAND}_install.sh
-
-## Enter chroot and execute install-steps
-#chroot /mnt/image "/${BRAND}_install.sh"
-
-#echo "if you are done run:"
-#echo "umount -R /mnt/image"
-
-#umount -R /mnt/image
+pacman --noconfirm -Scc
