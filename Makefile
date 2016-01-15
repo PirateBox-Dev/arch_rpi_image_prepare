@@ -103,7 +103,7 @@ get_staging:
 
 mount_image: $(BOOT_FOLDER) $(ROOT_FOLDER) get_lodevice
 	@echo "## Mounting image..."
-	sudo mount "$(LO_DEVICE)p1"  $(BOOT_FOLDER)
+	sudo mount "$(LO_DEVICE)p1" $(BOOT_FOLDER)
 	sudo mount "$(LO_DEVICE)p2" $(ROOT_FOLDER)
 	@echo ""
 
@@ -135,6 +135,7 @@ chroot_install:
 	- sudo mv -f $(ROOT_FOLDER)/etc/resolv.conf $(ROOT_FOLDER)/etc/resolv.conf.bak > /dev/null
 	sudo cp /etc/resolv.conf $(ROOT_FOLDER)/etc/resolv.conf > /dev/null
 	sudo mount -t proc proc $(ROOT_FOLDER)/proc/ > /dev/null
+	@echo ""
 	@echo "# Installing packages..."
 	sudo chroot $(ROOT_FOLDER) sh -c "/root/chroot/install_packages.sh > /dev/null"
 	@echo ""
