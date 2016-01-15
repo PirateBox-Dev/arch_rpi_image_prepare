@@ -136,7 +136,9 @@ chroot: chroot_prepare
 	sudo chroot $(ROOT_FOLDER) sh -c "/prebuild/staging/install_packages.sh > /dev/null"
 	@echo "## Installing PirateBox..."
 	sudo chroot $(ROOT_FOLDER) sh -c "/prebuild/staging/piratebox_install.sh > /dev/null"
-	sudo chroot $(ROOT_FOLDER) sh -c "sudo adduser alarm sudo"
+	sudo chroot $(ROOT_FOLDER) sh -c "groupadd sudo"
+	sudo chroot $(ROOT_FOLDER) sh -c "echo '%sudo ALL=(ALL) ALL' >> /etc/sudoers"
+	sudo chroot $(ROOT_FOLDER) sh -c "usermod -a -G sudo alarm"
 
 chroot_prepare:
 	@echo "## Preparing chroot environment..."
