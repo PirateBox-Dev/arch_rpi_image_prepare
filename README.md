@@ -48,6 +48,7 @@ cd qemu-arm-rpi
 To dump the raw image to an SD card run:
 ```Bash
 sudo dd if=raw_arch_image_file bs=512 | pv | sudo dd of=/dev/mmcblk0 bs=512
+sync
 ```
 
 ## Compressing the image for upload
