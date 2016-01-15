@@ -36,8 +36,8 @@ TGT_STAGING_FOLDER:=$(TGT_PACKAGE_FOLDER)/staging
 IMAGE_PREPARE=./qemu-arm-rpi/install_packages.sh
 IMAGE_FINALIZE=./qemu-arm-rpi/piratebox_install.sh
 
-# in Byte ; 2GiB * 1024 MiB    1024 KiB    1024 Byte
-IMAGESIZE:=$(shell echo  2*1024*1024*1024 | bc)
+# Imagesize should be 2GB
+IMAGESIZE:=$(shell echo "2 * 1024 * 1024 * 1024" | bc)
 BLOCKSIZE=512
 NEEDED_SECTOR_COUNT=$(shell echo ${IMAGESIZE} / ${BLOCKSIZE} | bc )
 
@@ -55,7 +55,7 @@ $(IMAGE_FILENAME):
 	@echo "* Filename\t$(IMAGE_FILENAME)"
 	@echo "* Blocksize\t$(BLOCKSIZE)"
 	@echo "* Sectors\t$(NEEDED_SECTOR_COUNT)"
-	@echo "* Total size\t$(IMAGESIZE) Bytes"
+	@echo "* Total size\t$(IMAGESIZE) Bytes (2GB)"
 	@dd if=/dev/zero bs=$(BLOCKSIZE) count=$(NEEDED_SECTOR_COUNT) status=none | pv --size $(IMAGESIZE) | dd of=$@ bs=$(BLOCKSIZE) count=$(NEEDED_SECTOR_COUNT) status=none
 
 $(DEV_FLAT_FILE):
