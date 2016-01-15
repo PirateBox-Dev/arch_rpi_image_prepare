@@ -39,3 +39,8 @@ make
 ```
 
 ## Testing via Qemu
+After the image is build it may be run in QEMU by invoking the helper script:
+```Bash
+cd qemu-arm-rpi
+./run_qemu-rpi.sh
+```
