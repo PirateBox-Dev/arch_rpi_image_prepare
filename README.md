@@ -27,7 +27,6 @@ make chroot
 
 After this is through you are left with an image you can simply dump on your SD card and boot your RPI.
 
-
 ## All In One
 For your convenience there is an **all** target to build the base image and install the dependencies:
 ```Bash
@@ -43,6 +42,12 @@ After the image is build it may be run in QEMU by invoking the helper script:
 ```Bash
 cd qemu-arm-rpi
 ./run_qemu-rpi.sh
+```
+
+## Dumping image to SD card
+To dump the raw image to an SD card run:
+```Bash
+sudo dd if=raw_arch_image_file bs=512 | pv | sudo dd of=/dev/mmcblk0 bs=512
 ```
 
 ## Compressing the image for upload
