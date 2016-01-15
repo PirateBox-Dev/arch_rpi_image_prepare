@@ -1,10 +1,6 @@
 #!/bin/sh
-
-## This script is for running on a PI
-##    - Tested in a QEMU environment.
-##    - Mounted the "to-prepare" image at sdb via CLI (see other script)
-##    - It requires a working internet connection for downloading the dependencies
-##
+# Install dependencies in a chrooted environment
+# - Working internet connection required for downloading the dependencies
 
 BRAND=piratebox
 
@@ -34,7 +30,7 @@ build_aur(){
 ## Read some build info, like architecture CARCH
 . /etc/makepkg.conf
 
-pacman --needed --noconfirm -Sy wget sudo base-devel
+pacman --needed --noconfirm -Sy base-devel
 
 #### Create Package-PreBuild for start-stop-daemon
 build_aur start-stop-daemon "https://aur.archlinux.org/cgit/aur.git/snapshot/start-stop-daemon.tar.gz"
@@ -47,10 +43,13 @@ build_aur proftpd "https://aur.archlinux.org/cgit/aur.git/snapshot/proftpd.tar.g
 pacman --needed --noconfirm -U /prebuild/*pkg.tar.xz
 
 ## Basic dependencies
-pacman --needed --noconfirm -S python2 lighttpd bash iw hostapd dnsmasq bridge-utils avahi wget wireless_tools netctl perl iptables zip unzip cronie net-tools community/perl-cgi minidlna
+pacman --needed --noconfirm -S python2 lighttpd bash iw hostapd dnsmasq \
+  bridge-utils avahi wget wireless_tools netctl perl iptables zip unzip cronie \
+  net-tools community/perl-cgi minidlna
 
 ## PHP related dependencies
-pacman --needed --noconfirm -S radvd proftpd php php-cgi php-sqlite lftp imagemagick php-gd
+pacman --needed --noconfirm -S radvd php php-cgi php-sqlite lftp imagemagick \
+  php-gd
 
 ## cleanup Image
 pacman --noconfirm -Scc
