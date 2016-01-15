@@ -44,3 +44,9 @@ After the image is build it may be run in QEMU by invoking the helper script:
 cd qemu-arm-rpi
 ./run_qemu-rpi.sh
 ```
+
+## Compressing the image for upload
+For uploading we want to achieve the smallest size possible. A lot of the available image space is not used, so we can simply compress it:
+```Bash
+tar -cvzf image.tar.gz raw_arch_image_file
+```
