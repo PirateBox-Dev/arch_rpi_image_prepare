@@ -111,7 +111,7 @@ install_files:
 	sudo mkdir -p $(TGT_PACKAGE_FOLDER) > /dev/null
 	sudo mkdir -p $(TGT_CHROOT_FOLDER) > /dev/null
 	sudo tar -xf $(ARCH_FILE) -C $(ROOT_FOLDER) --warning=none
-	sudo cp -rv $(SRC_PACKAGE_FOLDER)/$(ARCH)/* $(TGT_PACKAGE_FOLDER) > /dev/null
+	sudo cp -rv $(SRC_PACKAGE_FOLDER)/rpi/* $(TGT_PACKAGE_FOLDER) > /dev/null
 	sudo cp $(SRC_STAGING_FOLDER)/*.service "$(ROOT_FOLDER)/etc/systemd/system"
 	sudo cp $(SRC_STAGING_FOLDER)/RPi_motd.txt "$(ROOT_FOLDER)/etc/motd"
 	sudo cp -rv $(SRC_CHROOT_FOLDER)/* $(TGT_CHROOT_FOLDER) > /dev/null
