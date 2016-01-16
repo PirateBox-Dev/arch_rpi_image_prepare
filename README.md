@@ -19,6 +19,17 @@ Running **make** will acqurie all dependencies, install PirateBox and package th
 make
 ```
 
+By default this target builds the image for the *RPi 1* to build the image for *RPi 2* simply pass the *ARCH* variable:
+
+```Bash
+make ARCH=rpi2
+```
+
+There is a script in place that will build the images for *RPi 1 and RPi 2*, simply invoke:
+```Bash
+./build_all.sh
+```
+
 ## Testing via Qemu
 After the image is build it may be run in QEMU by invoking the helper script:
 ```Bash
