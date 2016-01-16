@@ -33,7 +33,6 @@ TGT_CHROOT_FOLDER:=$(ROOT_FOLDER)/root/chroot
 
 # LibraryBox Specific pacakges
 SRC_STAGING_FOLDER:="./staging_packages"
-TGT_STAGING_FOLDER:=$(TGT_PACKAGE_FOLDER)/staging
 
 # Imagesize should be 2GB
 IMAGESIZE:=$(shell echo "2 * 1024 * 1024 * 1024" | bc)
@@ -42,8 +41,9 @@ NEEDED_SECTOR_COUNT=$(shell echo ${IMAGESIZE} / ${BLOCKSIZE} | bc )
 
 LO_DEVICE=
 
-all: $(IMAGE_FILENAME) partitions get_lodevice format prepare_environment \
-	install_files chroot_install chroot_cleanup umount free_lo package
+all: $(ARCH_FILE) get_staging $(IMAGE_FILENAME) partition format \
+	mount_image install_files chroot_install chroot_cleanup umount \
+	free_lo package
 
 $(MOUNT_FOLDER) $(BOOT_FOLDER) $(ROOT_FOLDER):
 	@mkdir -p $@
@@ -65,13 +65,13 @@ get_lodevice:
 # Empty Partionts
 # Then with first n -> 100MB dos partition
 # 2nd n -> fill the rest with another primary partition
-partitions:
+partition:
 	@echo "## Creating partitions..."
 	cat fdisk_cmd.txt | sudo fdisk $(IMAGE_FILENAME) > /dev/null
 	@sync
 	@echo ""
 
-format:
+format: get_lodevice
 	@echo "## Formatting partitions..."
 	sudo  mkfs.vfat "$(LO_DEVICE)p1" > /dev/null
 	sudo  mkfs.ext4 "$(LO_DEVICE)p2" > /dev/null
@@ -83,13 +83,15 @@ ifneq ("$(wildcard $(LO_DEVICE))", "")
 endif
 
 $(ARCH_FILE):
-	wget -c -O $(ARCH_FILE) $(ARCH_URL)
+	@echo "## Obtaining root filesystem..."
+	@wget -q --show-progress -c $(ARCH_URL)
+	@echo ""
 
 get_staging:
 	@echo "## Obtaining staging packages..."
-	wget --no-verbose -c -P $(SRC_STAGING_FOLDER) $(SERVICE_PIRATEBOX_URL)
-	wget --no-verbose -c -P $(SRC_STAGING_FOLDER) $(SERVICE_TIMESAVE_URL)
-	wget --no-verbose -c -P $(SRC_STAGING_FOLDER) $(MOTD_URL)
+	@wget -q --show-progress -c -P $(SRC_STAGING_FOLDER) $(SERVICE_PIRATEBOX_URL)
+	@wget -q --show-progress -c -P $(SRC_STAGING_FOLDER) $(SERVICE_TIMESAVE_URL)
+	@wget -q --show-progress -c -P $(SRC_STAGING_FOLDER) $(MOTD_URL)
 	@echo ""
 
 mount_image: $(BOOT_FOLDER) $(ROOT_FOLDER) get_lodevice
@@ -104,16 +106,14 @@ umount:
 	- sudo umount $(ROOT_FOLDER)
 	@echo ""
 
-prepare_environment: $(ARCH_FILE) get_staging mount_image
-
 install_files:
 	@echo "## Moving files to their place..."
 	sudo mkdir -p $(TGT_PACKAGE_FOLDER) > /dev/null
-	sudo mkdir -p $(TGT_STAGING_FOLDER) > /dev/null
 	sudo mkdir -p $(TGT_CHROOT_FOLDER) > /dev/null
 	sudo tar -xf $(ARCH_FILE) -C $(ROOT_FOLDER) --warning=none
 	sudo cp -rv $(SRC_PACKAGE_FOLDER)/$(ARCH)/* $(TGT_PACKAGE_FOLDER) > /dev/null
-	- sudo cp -rv $(SRC_STAGING_FOLDER)/* $(TGT_STAGING_FOLDER) > /dev/null
+	sudo cp $(SRC_STAGING_FOLDER)/*.service "$(ROOT_FOLDER)/etc/systemd/system"
+	sudo cp $(SRC_STAGING_FOLDER)/RPi_motd.txt "$(ROOT_FOLDER)/etc/motd"
 	sudo cp -rv $(SRC_CHROOT_FOLDER)/* $(TGT_CHROOT_FOLDER) > /dev/null
 	sudo mv $(ROOT_FOLDER)/boot/* $(BOOT_FOLDER) > /dev/null
 	sudo cp /usr/bin/qemu-arm-static $(ROOT_FOLDER)/usr/bin > /dev/null
@@ -138,24 +138,25 @@ chroot_install:
 	@echo ""
 
 chroot_cleanup:
-	@echo "# Cleaning up chroot..."
+	@echo "## Cleaning up chroot..."
 	- sudo mv $(ROOT_FOLDER)/etc/resolv.conf.bak $(ROOT_FOLDER)/etc/resolv.conf
 	- sudo umount $(ROOT_FOLDER)/proc/ > /dev/null
 	@echo ""
 
 clean: chroot_cleanup umount free_lo
+	@echo "## Cleaning up..."
 	rm -f $(IMAGE_FILENAME) > /dev/null
 	sudo rm -rf $(MOUNT_FOLDER) > /dev/null
+	@echo ""
 
 cleanall: clean
-	rm -f $(ARCH_FILE)
-	rm -f $(SRC_STAGING_FOLDER)/*
-
-format_only: get_lodevice format free_lo
+	rm -f $(ARCH_FILE) > /dev/null
+	rm -f $(SRC_STAGING_FOLDER)/* > /dev/null
 
 package:
-	@echo "Packaging image for distribution..."
+	@echo "## Packaging image for distribution..."
 	tar -cvzf "$(IMAGE_FILENAME).tar.gz" $(IMAGE_FILENAME)
 	@echo ""
 
-create_arch_image: $(IMAGE_FILENAME) partitions get_lodevice format prepare_environment install_files umount free_lo
+#format_only: get_lodevice format free_lo
+#create_arch_image: $(IMAGE_FILENAME) partitions get_lodevice format prepare_environment install_files umount free_lo
