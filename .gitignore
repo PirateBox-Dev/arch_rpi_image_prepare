@@ -2,7 +2,7 @@
 *.img
 *.swp
 dev_node_name
-ArchLinuxARM-rpi-latest.tar.gz
+*latest.tar.gz
 mount
 staging_packages
 *.img.tar.gz
