@@ -40,17 +40,16 @@ IMAGESIZE:=$(shell echo "2 * 1024 * 1024 * 1024" | bc)
 BLOCKSIZE=512
 NEEDED_SECTOR_COUNT=$(shell echo ${IMAGESIZE} / ${BLOCKSIZE} | bc )
 
-DEV_FLAT_FILE=./dev_node_name
 LO_DEVICE=
 
 all: $(IMAGE_FILENAME) partitions get_lodevice format prepare_environment \
-	install_files chroot_install chroot_cleanup umount free_lo
+	install_files chroot_install chroot_cleanup umount free_lo package
 
 $(MOUNT_FOLDER) $(BOOT_FOLDER) $(ROOT_FOLDER):
-	mkdir -p  $@
+	@mkdir -p $@
 
 $(IMAGE_FILENAME):
-	@echo "## Creating image file"
+	@echo "## Creating $(ARCH) image file"
 	@echo "* Filename\t$(IMAGE_FILENAME)"
 	@echo "* Blocksize\t$(BLOCKSIZE)"
 	@echo "* Sectors\t$(NEEDED_SECTOR_COUNT)"
@@ -58,13 +57,8 @@ $(IMAGE_FILENAME):
 	@dd if=/dev/zero bs=$(BLOCKSIZE) count=$(NEEDED_SECTOR_COUNT) status=none | pv --size $(IMAGESIZE) | dd of=$@ bs=$(BLOCKSIZE) count=$(NEEDED_SECTOR_COUNT) status=none
 	@echo ""
 
-$(DEV_FLAT_FILE):
-	LO_DEVICE=$(shell sudo losetup --partscan  --find --show $(IMAGE_FILENAME) > $(DEV_FLAT_FILE) )
-
 get_lodevice:
 	$(eval LO_DEVICE=$(shell sudo losetup --partscan --find --show $(IMAGE_FILENAME)))
-	@echo "## Using loopback device: $(LO_DEVICE)"
-	@echo ""
 
 ## Partitions
 # as it is no blockdevice, we need to specify the blocksize
@@ -78,17 +72,14 @@ partitions:
 	@echo ""
 
 format:
-	@echo "## Formatting partitios..."
-	@echo "# boot"
+	@echo "## Formatting partitions..."
 	sudo  mkfs.vfat "$(LO_DEVICE)p1" > /dev/null
-	@echo "# root"
 	sudo  mkfs.ext4 "$(LO_DEVICE)p2" > /dev/null
 	@echo ""
 
 free_lo:
 ifneq ("$(wildcard $(LO_DEVICE))", "")
 	sudo losetup -d $(LO_DEVICE)
-	sudo rm -f $(DEV_FLAT_FILE)
 endif
 
 $(ARCH_FILE):
@@ -147,8 +138,10 @@ chroot_install:
 	@echo ""
 
 chroot_cleanup:
+	@echo "# Cleaning up chroot..."
 	- sudo mv $(ROOT_FOLDER)/etc/resolv.conf.bak $(ROOT_FOLDER)/etc/resolv.conf
 	- sudo umount $(ROOT_FOLDER)/proc/ > /dev/null
+	@echo ""
 
 clean: chroot_cleanup umount free_lo
 	rm -f $(IMAGE_FILENAME) > /dev/null
@@ -159,5 +152,10 @@ cleanall: clean
 	rm -f $(SRC_STAGING_FOLDER)/*
 
 format_only: get_lodevice format free_lo
+
+package:
+	@echo "Packaging image for distribution..."
+	tar -cvzf "$(IMAGE_FILENAME).tar.gz" $(IMAGE_FILENAME)
+	@echo ""
 
 create_arch_image: $(IMAGE_FILENAME) partitions get_lodevice format prepare_environment install_files umount free_lo
