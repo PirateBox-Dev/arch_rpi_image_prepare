@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * alarm user is now member of sudo group
 * Retrieve staging packages during build process
 * Make targets to install dependencies and PirateBox via chroot
+* Added script to build images for RPi 1 & 2 at once
 
 ### Changed
 * No need to start qemu manually - everything is now done via chroot
@@ -15,6 +16,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * Automated installation of PirateBox
 * root user is not allowed to log in via ssh
 * README converted to MarkDown
+* re structured folder structure
 
 ### Imporved
 * initial package selection
