@@ -67,7 +67,7 @@ get_lodevice:
 # 2nd n -> fill the rest with another primary partition
 partition:
 	@echo "## Creating partitions..."
-	cat fdisk_cmd.txt | sudo fdisk $(IMAGE_FILENAME) > /dev/null
+	cat ./config/fdisk_cmd.txt | sudo fdisk $(IMAGE_FILENAME) > /dev/null
 	@sync
 	@echo ""
 
