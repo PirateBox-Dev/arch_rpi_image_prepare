@@ -25,14 +25,14 @@ MOUNT_FOLDER:=./mount
 BOOT_FOLDER:=$(MOUNT_FOLDER)/boot
 ROOT_FOLDER:=$(MOUNT_FOLDER)/root
 
-SRC_PACKAGE_FOLDER:="./pre_build_packages"
+SRC_PACKAGE_FOLDER:="./packages/prebuild"
 TGT_PACKAGE_FOLDER:=$(ROOT_FOLDER)/prebuild
 
 SRC_CHROOT_FOLDER:=./chroot
 TGT_CHROOT_FOLDER:=$(ROOT_FOLDER)/root/chroot
 
 # LibraryBox Specific pacakges
-SRC_STAGING_FOLDER:="./staging_packages"
+SRC_STAGING_FOLDER:="./packages/staging"
 
 # Imagesize should be 2GB
 IMAGESIZE:=$(shell echo "2 * 1024 * 1024 * 1024" | bc)
