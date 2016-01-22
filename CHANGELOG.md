@@ -9,6 +9,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * Retrieve staging packages during build process
 * Make targets to install dependencies and PirateBox via chroot
 * Testing checklist
+* Support for RPi 2
+* Support for RPi Zero
 
 ### Changed
 * No need to start qemu manually - everything is now done via chroot
