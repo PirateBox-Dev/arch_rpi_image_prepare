@@ -37,6 +37,7 @@ After the image is build it may be run in QEMU by invoking the helper script:
 cd qemu-arm-rpi
 ./rpi.sh
 ```
+This only works with the RPi 1 image.
 
 ## Dumping image to SD card
 To dump the raw image to an SD card run:
@@ -44,3 +45,16 @@ To dump the raw image to an SD card run:
 sudo dd if=piratebox-rpi.img bs=2048 | pv | sudo dd of=/dev/mmcblk0 bs=2048
 sync
 ```
+
+## Supported Platforms by image
+There are only two images needed to support all different Raspberry Pi boards.
+
+### piratebox-rpi.img
+* Raspberry Pi 1 A
+* Raspberry Pi 1 A+
+* Raspberry Pi 1 B
+* Raspberry Pi 1 B+
+* Raspberry Pi Zero
+
+### piratebox-rpi2.img
+* Raspberry Pi 2 B
