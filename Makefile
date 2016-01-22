@@ -155,7 +155,7 @@ cleanall: clean
 
 package:
 	@echo "## Packaging image for distribution..."
-	tar -cvzf "$(IMAGE_FILENAME).tar.gz" $(IMAGE_FILENAME)
+	zip $(IMAGE_FILENAME).zip $(IMAGE_FILENAME)
 	@echo ""
 
 #format_only: get_lodevice format free_lo
