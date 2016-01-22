@@ -117,7 +117,7 @@ install_files:
 	sudo cp -rv $(SRC_CHROOT_FOLDER)/* $(TGT_CHROOT_FOLDER) > /dev/null
 	sudo mv $(ROOT_FOLDER)/boot/* $(BOOT_FOLDER) > /dev/null
 	sudo cp /usr/bin/qemu-arm-static $(ROOT_FOLDER)/usr/bin > /dev/null
-	sudo sh -c 'echo "" > $(ROOT_FOLDER)/etc/fstab'
+	sudo sh -c 'echo "/dev/mmcblk0p1 /boot vfat defaults,nofail 0 0" > $(ROOT_FOLDER)/etc/fstab'
 	@sync
 	@echo ""
 
