@@ -45,7 +45,7 @@ pacman --needed --noconfirm -U /prebuild/*pkg.tar.xz
 ## Basic dependencies
 pacman --needed --noconfirm -S python2 lighttpd bash iw hostapd dnsmasq \
   bridge-utils avahi wget wireless_tools netctl perl iptables zip unzip cronie \
-  net-tools community/perl-cgi minidlna
+  net-tools community/perl-cgi minidlna wpa_supplicant
 
 ## PHP related dependencies
 pacman --needed --noconfirm -S radvd php php-cgi php-sqlite lftp imagemagick \
