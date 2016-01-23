@@ -41,9 +41,9 @@ NEEDED_SECTOR_COUNT=$(shell echo ${IMAGESIZE} / ${BLOCKSIZE} | bc )
 
 LO_DEVICE=
 
-all: $(ARCH_FILE) get_staging $(IMAGE_FILENAME) partition format \
-	mount_image install_files chroot_install chroot_cleanup umount \
-	free_lo package
+all: $(ARCH_FILE) get_staging $(IMAGE_FILENAME) partition format mount_image  \
+	install_files chroot_install copy_helpers \
+	 chroot_cleanup umount free_lo package
 
 $(MOUNT_FOLDER) $(BOOT_FOLDER) $(ROOT_FOLDER):
 	@mkdir -p $@
@@ -136,6 +136,11 @@ chroot_install:
 	@echo "# Installing PirateBox..."
 	sudo chroot $(ROOT_FOLDER) sh -c "/root/chroot/install_piratebox.sh > /dev/null"
 	@echo ""
+
+copy_helpers:
+	sudo cp ./helpers/99-wifi.rules $(ROOT_FOLDER)/etc/udev/rules.d/
+	sudo cp ./helpers/detect-wifi.sh $(ROOT_FOLDER)/opt/piratebox/bin/
+	sudo cp ./helpers/pi-starter.sh $(ROOT_FOLDER)/opt/piratebox/bin/
 
 chroot_cleanup:
 	@echo "## Cleaning up chroot..."
