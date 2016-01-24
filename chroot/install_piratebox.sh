@@ -13,7 +13,7 @@ tar xzf piratebox-ws_current.tar.gz
 mv piratebox/piratebox /opt
 rm -r ./piratebox-ws_current.tar.gz
 
-$($BIN_PATH/install_piratebox.sh "${CONF_PATH}"  part2 > /dev/null)
+$($BIN_PATH/install_piratebox.sh "${CONF_PATH}" part2 > /dev/null)
 $($BIN_PATH/install_piratebox.sh "${CONF_PATH}" imageboard > /dev/null)
 
 sed -i 's:TIMESAVE_FORMAT="":TIMESAVE_FORMAT="+%C%g%m%d %H%M":' $CONF_PATH
