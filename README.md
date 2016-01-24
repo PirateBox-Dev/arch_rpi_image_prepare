@@ -31,6 +31,27 @@ There is a script in place that will build the images for *RPi 1 and RPi 2*, sim
 ./build_all.sh
 ```
 
+## Accessing Image via chroot
+To access the image via chroot simply mount the image by invoking
+```Bash
+make mount_image
+```
+
+In case you need network access within the chroot mount proc to the mounted image:
+```Bash
+sudo mount -t proc proc /mount/root/proc/
+```
+
+Then chroot into the environment:
+```Bash
+sudo chroot /mount/root/
+```
+
+Do not forget to unmount the image when you are done:
+```Bash
+make umount_image
+```
+
 ## Testing via Qemu
 After the image is build it may be run in QEMU by invoking the helper script:
 ```Bash
