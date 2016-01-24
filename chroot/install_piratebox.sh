@@ -16,6 +16,6 @@ rm -r ./piratebox-ws_current.tar.gz
 $($BIN_PATH/install_piratebox.sh "${CONF_PATH}"  part2 > /dev/null)
 $($BIN_PATH/install_piratebox.sh "${CONF_PATH}" imageboard > /dev/null)
 
-sed -i 's:TIMESAVE_FORMAT="":TIMESAVE_FORMAT="+%C%g%m%d":' $CONF_PATH
+sed -i 's:TIMESAVE_FORMAT="":TIMESAVE_FORMAT="+%C%g%m%d %H%M":' $CONF_PATH
 
 chmod 777 $PIRATEBOX_PATH/tmp
