@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * Testing checklist
 * Support for RPi 2
 * Support for RPi Zero
+* Set TIMESAVE_FORMAT
 
 ### Changed
 * No need to start qemu manually - everything is now done via chroot
