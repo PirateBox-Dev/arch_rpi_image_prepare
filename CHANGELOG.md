@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * Support for RPi 2
 * Support for RPi Zero
 * Set TIMESAVE_FORMAT
+* Build from specific piratebox webserver branch
 
 ### Changed
 * No need to start qemu manually - everything is now done via chroot
@@ -24,3 +25,4 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * initial package selection
 * only install/update new packages, do not reinstall packages that are available
 * qemu start scripts
+* permissions for minidlna

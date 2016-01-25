@@ -7,12 +7,10 @@ systemctl enable sshd
 ln /usr/bin/python2 /usr/bin/python
 groupadd nogroup && usermod -a -G nogroup nobody
 
-# TODO: Add functionality to install the dev version of piratebox-ws
 cd /root
-wget -q --show-progress http://downloads.piratebox.de/piratebox-ws_current.tar.gz
-tar xzf piratebox-ws_current.tar.gz
+tar xzf *.tar.gz
 mv piratebox/piratebox /opt
-rm -r ./piratebox-ws_current.tar.gz
+rm -r ./*.tar.gz
 
 $($BIN_PATH/install_piratebox.sh "${CONF_PATH}" part2 > /dev/null)
 $($BIN_PATH/install_piratebox.sh "${CONF_PATH}" imageboard > /dev/null)

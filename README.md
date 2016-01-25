@@ -50,10 +50,13 @@ May be *rpi* or *rpi2*, defaults to **rpi**.
 Number of the build. Leave empty for a date stamp. Defaults to **date stamp**
 
 ### VERSION
-Used piratebox version in format **x.y.z**, defaults to **x.y.z**
+Used piratebox version in format **x.y.z**, defaults to **devBuild**
 
 ### SOURCE
 May be *piratebox* or *librarybox*, defaults to **piratebox**
+
+### BRANCH
+The branch of *pirtebox-ws* used, defaults to **master**.
 
 ## Accessing Image via chroot
 To access the image via chroot simply mount the image by invoking
@@ -80,7 +83,7 @@ make umount_image
 After the image is build it may be run in QEMU by invoking the helper script:
 ```Bash
 cd qemu-arm-rpi
-./rpi.sh
+./rpi.sh /path/to/piratebox.img
 ```
 This only works with the RPi 1 image.
 
