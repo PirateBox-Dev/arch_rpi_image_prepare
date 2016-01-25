@@ -6,3 +6,5 @@ dev_node_name
 mount
 staging_packages
 *.zip
+piratebox-ws
+packages/staging/
