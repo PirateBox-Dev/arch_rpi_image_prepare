@@ -31,6 +31,30 @@ There is a script in place that will build the images for *RPi 1 and RPi 2*, sim
 ./build_all.sh
 ```
 
+## Versioning Scheme
+The versioning scheme of the image is like so:
+
+```
+${sources}_${arch}_${version}-${buildnum}.img.zip
+```
+
+Each parameter is described below.
+
+## Available make Parameters
+You can pass different paramters to the build script, lets describe them briefly.
+
+### ARCH
+May be *rpi* or *rpi2*, defaults to **rpi**.
+
+### BUILD
+Number of the build. Leave empty for a date stamp. Defaults to **date stamp**
+
+### VERSION
+Used piratebox version in format **x.y.z**, defaults to **x.y.z**
+
+### SOURCE
+May be *piratebox* or *librarybox*, defaults to **piratebox**
+
 ## Accessing Image via chroot
 To access the image via chroot simply mount the image by invoking
 ```Bash
