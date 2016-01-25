@@ -1,4 +1,8 @@
+# Default build variables, they may be passed via command line
 ARCH?=rpi
+BUILD?=$(shell date +%d-%m-%Y)
+VERSION?="devBuild"
+SOURCE?="piratebox"
 
 ifeq ($(ARCH),rpi)
 ## based on http://archlinuxarm.org/platforms/armv6/raspberry-pi
@@ -18,7 +22,8 @@ SERVICE_TIMESAVE_URL:=https://raw.githubusercontent.com/PirateBox-Dev/PirateBoxS
 MOTD_URL:=https://raw.githubusercontent.com/PirateBox-Dev/PirateBoxScripts_Webserver/master/BuildScripts/RPi_motd.txt
 
 # Name of the generated image file
-IMAGE_FILENAME=./piratebox-$(ARCH).img
+IMAGE_FILENAME=./$(SOURCE)_$(ARCH)_$(VERSION)-$(BUILD).img
+ZIPPED_FILENAME=$(IMAGE_FILENAME).zip
 
 # Mount points
 MOUNT_FOLDER:=./mount
@@ -160,7 +165,7 @@ cleanall: clean
 
 package:
 	@echo "## Packaging image for distribution..."
-	zip $(IMAGE_FILENAME).zip $(IMAGE_FILENAME)
+	zip $(ZIPPED_FILENAME) $(IMAGE_FILENAME)
 	@echo ""
 
 #format_only: get_lodevice format free_lo
