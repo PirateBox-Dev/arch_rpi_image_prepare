@@ -7,6 +7,7 @@ systemctl enable sshd
 ln /usr/bin/python2 /usr/bin/python
 groupadd nogroup && usermod -a -G nogroup nobody
 
+# TODO: Add functionality to install the dev version of piratebox-ws
 cd /root
 wget -q --show-progress http://downloads.piratebox.de/piratebox-ws_current.tar.gz
 tar xzf piratebox-ws_current.tar.gz
@@ -18,4 +19,7 @@ $($BIN_PATH/install_piratebox.sh "${CONF_PATH}" imageboard > /dev/null)
 
 sed -i 's:TIMESAVE_FORMAT="":TIMESAVE_FORMAT="+%C%g%m%d %H%M":' $CONF_PATH
 
-chmod 777 $PIRATEBOX_PATH/tmp
+# Add minidlna user to nogroup and allow the group to read and write files
+usermod -a -G nogroup minidlna
+chmod -R g+rw $PIRATEBOX_PATH/tmp
+chmod -R g+rw $PIRATEBOX_PATH/share
