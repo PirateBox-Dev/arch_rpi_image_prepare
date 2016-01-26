@@ -28,4 +28,12 @@ if dmesg | grep > /dev/null "rtl8192cu"; then
 fi
 
 echo "Could not find an AP enabled WiFi card..."
+
+# Try to connect to Wifi if wpa_supplicant.conf is available.
+if [ -f /boot/wpa_supplicant.conf ]; then
+  echo "Found wpa_supplicant conf, trying to connect..."
+  wpa_supplicant -iwlan0 -c /boot/wpa_supplicant.conf -B -D wext
+  dhcpcd wlan0
+fi
+
 exit 1
