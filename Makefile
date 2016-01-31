@@ -149,6 +149,7 @@ copy_helpers:
 	sudo cp ./helpers/99-wifi.rules $(ROOT_FOLDER)/etc/udev/rules.d/
 	sudo cp ./helpers/detect-wifi.sh $(ROOT_FOLDER)/opt/piratebox/bin/
 	sudo cp ./helpers/pi-starter.sh $(ROOT_FOLDER)/opt/piratebox/bin/
+	sudo cp ./helpers/usb_share.sh $(ROOT_FOLDER)/opt/piratebox/bin/
 
 chroot_cleanup:
 	@echo "## Cleaning up chroot..."

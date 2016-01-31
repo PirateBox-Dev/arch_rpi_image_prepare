@@ -106,3 +106,9 @@ There are only two images needed to support all different Raspberry Pi boards.
 
 ### piratebox-rpi2.img
 * Raspberry Pi 2 B
+
+## Shout Outs
+Big shout outs to all the people helping with testing (in alphabetical order):
+
+* [Seksan2](https://forum.piratebox.cc/profile.php?7,1747) (Beau Anketell)
+* [TheExpertNoob](https://forum.piratebox.cc/profile.php?7,2060) (???)

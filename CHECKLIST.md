@@ -12,6 +12,7 @@ Before going through the checklist, make sure your USB WiFi is attached and is o
 * [ ] It is possible to post to the shoutbox
 * [ ] It is possible to upload files to the PirateBox
 * [ ] Enable Kareha Image and Discussion Board
+* [ ] Enable USB share
 * [ ] Menu entry for the board is available in the Menu
 * [ ] It is possible to post to the board
 * [ ] Set some date and enable Fake-timeservice
