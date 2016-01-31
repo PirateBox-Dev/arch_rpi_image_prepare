@@ -23,7 +23,7 @@ echo "${UUID} ${MOUNTPOINT} vfat umask=0,noatime,rw,user 0 0" >> /etc/fstab
 mount "${MOUNTPOINT}" > /dev/null
 
 echo "## Moving files..."
-mv /opt/piratebox/share "${MOUNTPOINT}/share" > /dev/null 2&>1
+mv /opt/piratebox/share "${MOUNTPOINT}/share" > /dev/null 2>&1
 ln -s "${MOUNTPOINT}/share" /opt/piratebox/share > /dev/null
 
 exit 0
