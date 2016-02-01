@@ -3,6 +3,7 @@ pkgname=hostapd-RTL8188C_8192C_USB_linux
 pkgver=v4.0.2_9000.20130911
 pkgrel=1
 arch=("armv7h")
+conflicts=("hostapd")
 provides=("hostapd")
 source=("http://12244.wpc.azureedge.net/8012244/drivers/rtdrivers/cn/wlan/0001-RTL8188C_8192C_USB_linux_v4.0.2_9000.20130911.zip")
 sha256sums=("14f5775cfa4caf494b231a9f16ccaa2400d9c66db8443f970ec0b905971f69e8")
