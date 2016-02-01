@@ -36,9 +36,6 @@ pacman --needed --noconfirm -Sy base-devel
 ##--- additional wifi stuff
 ## verify ... $SUDO pacman --noconfirm -r /mnt/image -S dkms-8188eu dkms-8192cu
 
-#-- aquire (pre) built package
-pacman --needed --noconfirm -U /prebuild/*pkg.tar.xz
-
 ## Basic dependencies
 pacman --needed --noconfirm -S python2 lighttpd bash iw hostapd dnsmasq \
   bridge-utils avahi wget wireless_tools netctl perl iptables zip unzip cronie \
@@ -51,6 +48,9 @@ pacman --needed --noconfirm -S radvd php php-cgi php-sqlite lftp imagemagick \
 #### Create Package-PreBuild for start-stop-daemon
 build_aur start-stop-daemon "https://aur.archlinux.org/cgit/aur.git/snapshot/start-stop-daemon.tar.gz"
 build_aur proftpd "https://aur.archlinux.org/cgit/aur.git/snapshot/proftpd.tar.gz"
+
+#-- aquire (pre) built package
+pacman --needed --noconfirm -U /prebuild/*pkg.tar.xz
 
 ## cleanup Image
 pacman --noconfirm -Scc
