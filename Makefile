@@ -134,6 +134,7 @@ chroot_install:
 	- sudo mv -f $(ROOT_FOLDER)/etc/resolv.conf $(ROOT_FOLDER)/etc/resolv.conf.bak > /dev/null
 	sudo cp /etc/resolv.conf $(ROOT_FOLDER)/etc/resolv.conf > /dev/null
 	sudo mount -t proc proc $(ROOT_FOLDER)/proc/ > /dev/null
+	sudo mount -o bind /dev $(ROOT_FOLDER)/dev/ > /dev/null
 	@echo ""
 	@echo "# Installing packages..."
 	sudo chroot $(ROOT_FOLDER) sh -c "/root/chroot/install_packages.sh > /dev/null"
@@ -155,6 +156,7 @@ chroot_cleanup:
 	@echo "## Cleaning up chroot..."
 	- sudo mv $(ROOT_FOLDER)/etc/resolv.conf.bak $(ROOT_FOLDER)/etc/resolv.conf
 	- sudo umount $(ROOT_FOLDER)/proc/ > /dev/null
+	- sudo umount $(ROOT_FOLDER)/dev/ > /dev/null
 	@echo ""
 
 clean: chroot_cleanup umount free_lo
