@@ -117,7 +117,7 @@ install_files: build_piratebox
 	sudo mkdir -p $(TGT_PACKAGE_FOLDER) > /dev/null
 	sudo mkdir -p $(TGT_CHROOT_FOLDER) > /dev/null
 	sudo tar -xf $(ARCH_FILE) -C $(ROOT_FOLDER) --warning=none
-	sudo cp -rv $(SRC_PACKAGE_FOLDER)/rpi/* $(TGT_PACKAGE_FOLDER) > /dev/null
+	sudo cp -rv $(SRC_PACKAGE_FOLDER)/$(ARCH)/* $(TGT_PACKAGE_FOLDER) > /dev/null
 	sudo cp $(PIRATEBOX_PACKAGE_FOLDER)/BuildScripts/*.service "$(ROOT_FOLDER)/etc/systemd/system"
 	sudo cp $(PIRATEBOX_PACKAGE_FOLDER)/BuildScripts/RPi_motd.txt "$(ROOT_FOLDER)/etc/motd"
 	sudo cp $(PIRATEBOX_PACKAGE_FOLDER)/*.tar.gz "$(ROOT_FOLDER)/root"
