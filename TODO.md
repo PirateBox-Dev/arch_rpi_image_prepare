@@ -3,8 +3,11 @@
 ### For current release
 
 * [ ] Add shout outs for the people involved in testing (waiting for TheExpertNoob)
-* [ ] Droopy shows retry after successfull file upload to usb
-* [?] minidlna service will not start with the given MOTD text - can not reproduce
+* [x] Do not copy hostapd config files, instead parse the available one
+  * [x] Delete directories with config files
+* [ ] Move scripts to the piratebox ws repository where it makes sense
+  * [ ] move all scripts from helpers
+  * [ ] adapt piratebox install script
 
 ### Maybe later
 

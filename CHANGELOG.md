@@ -28,3 +28,4 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * only install/update new packages, do not reinstall packages that are available
 * qemu start scripts
 * permissions for minidlna
+* Fixed permission issue with Droopy

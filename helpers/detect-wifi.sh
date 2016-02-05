@@ -1,13 +1,16 @@
 #!/bin/sh
+
+# Install the proper hostapd package and adjust the hostapd configuration
+# accordingly.
+
 PACKAGE_PATH="/prebuild/hostapd"
-CONFIG_PATH="${PACKAGE_PATH}/configs"
-CONFIG_TARGET="/opt/piratebox/conf/hostapd.conf"
+CONFIG_PATH="/opt/piratebox/conf/hostapd.conf"
 
 # Check if we have an nl80211 enabled device with AP mode, then we are done
 if iw list | grep > /dev/null "* AP$"; then
   echo "Found nl80211 device capable of AP mode..."
   yes | pacman -U --needed "${PACKAGE_PATH}/hostapd-2"* > /dev/null
-  cp "${CONFIG_PATH}/nl80211.conf" "${CONFIG_TARGET}"
+  sed -i 's/^#driver=nl80211/driver=nl80211/' "${CONFIG_PATH}"
   exit 0
 fi
 
@@ -15,7 +18,7 @@ fi
 if dmesg | grep > /dev/null "r8188eu:"; then
   echo "Found r8188eu enabled device..."
   yes | pacman -U --needed "${PACKAGE_PATH}/hostapd-8188eu-"* > /dev/null
-  cp "${CONFIG_PATH}/r8188eu.conf" "${CONFIG_TARGET}"
+  sed -i 's/^driver=nl80211/#driver=nl80211/' "${CONFIG_PATH}"
   exit 0
 fi
 
@@ -23,7 +26,7 @@ fi
 if dmesg | grep > /dev/null "rtl8192cu"; then
   echo "Found rtl8192cu enabled device..."
   yes | pacman -U --needed "${PACKAGE_PATH}/hostapd-8192cu-"* > /dev/null
-  cp "${CONFIG_PATH}/rtl8192cu.conf" "${CONFIG_TARGET}"
+  sed -i 's/^driver=nl80211/#driver=nl80211/' "${CONFIG_PATH}"
   exit 0
 fi
 
