@@ -13,9 +13,15 @@ To create an image you will need to have the following tools available on your s
 * qemu-system-arm
 * qemu-user-static
 * pv
+* zip
+
+On Debian based systems simply run:
+```Bash
+sudo apt-get install pv qemu-system-arm qemu-user-static zip
+```
 
 ## Build The RPi Image
-Running **make** will acqurie all dependencies, install PirateBox and package the image for distribution:
+Running **make** will acquire all dependencies, install PirateBox and package the image for distribution:
 ```Bash
 make
 ```
@@ -31,6 +37,12 @@ There is a script in place that will build the images for *RPi 1 and RPi 2*, sim
 ./build_all.sh
 ```
 
+### Packaging the images
+To zip the image simply invoke the dist target:
+```Bash
+make dist
+```
+
 ## Versioning Scheme
 The versioning scheme of the image is like so:
 
@@ -41,7 +53,7 @@ ${sources}_${arch}_${version}-${buildnum}.img.zip
 Each parameter is described below.
 
 ## Available make Parameters
-You can pass different paramters to the build script, lets describe them briefly.
+You can pass different parameters to the build script, lets describe them briefly.
 
 ### ARCH
 May be *rpi* or *rpi2*, defaults to **rpi**.

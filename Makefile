@@ -3,16 +3,14 @@ ARCH?=rpi
 BUILD?=$(shell date +%d-%m-%Y)
 VERSION?="devBuild"
 SOURCE?="piratebox"
-BRANCH=master
+BRANCH?="master"
 
 ifeq ($(ARCH),rpi)
-## based on http://archlinuxarm.org/platforms/armv6/raspberry-pi
 ARCH_URL=http://archlinuxarm.org/os/ArchLinuxARM-rpi-latest.tar.gz
 ARCH_FILE:=ArchLinuxARM-rpi-latest.tar.gz
 endif
 
 ifeq ($(ARCH),rpi2)
-## based on http://archlinuxarm.org/platforms/armv7/broadcom/raspberry-pi-2
 ARCH_URL=http://archlinuxarm.org/os/ArchLinuxARM-rpi-2-latest.tar.gz
 ARCH_FILE:=ArchLinuxARM-rpi-2-latest.tar.gz
 endif
@@ -44,8 +42,10 @@ NEEDED_SECTOR_COUNT=$(shell echo ${IMAGESIZE} / ${BLOCKSIZE} | bc )
 LO_DEVICE=
 
 all: $(ARCH_FILE) $(IMAGE_FILENAME) partition format mount_image  \
-	install_files chroot_install copy_helpers \
-	 chroot_cleanup umount free_lo package
+	install_files chroot_install \
+	chroot_cleanup umount free_lo
+
+dist: all package
 
 $(MOUNT_FOLDER) $(BOOT_FOLDER) $(ROOT_FOLDER):
 	@mkdir -p $@
@@ -118,8 +118,6 @@ install_files: build_piratebox
 	sudo mkdir -p $(TGT_CHROOT_FOLDER) > /dev/null
 	sudo tar -xf $(ARCH_FILE) -C $(ROOT_FOLDER) --warning=none
 	sudo cp -rv $(SRC_PACKAGE_FOLDER)/$(ARCH)/* $(TGT_PACKAGE_FOLDER) > /dev/null
-	sudo cp $(PIRATEBOX_PACKAGE_FOLDER)/BuildScripts/*.service "$(ROOT_FOLDER)/etc/systemd/system"
-	sudo cp $(PIRATEBOX_PACKAGE_FOLDER)/BuildScripts/RPi_motd.txt "$(ROOT_FOLDER)/etc/motd"
 	sudo cp $(PIRATEBOX_PACKAGE_FOLDER)/*.tar.gz "$(ROOT_FOLDER)/root"
 	sudo cp -rv $(SRC_CHROOT_FOLDER)/* $(TGT_CHROOT_FOLDER) > /dev/null
 	sudo mv $(ROOT_FOLDER)/boot/* $(BOOT_FOLDER) > /dev/null
@@ -146,14 +144,6 @@ chroot_install:
 	sudo chroot $(ROOT_FOLDER) sh -c "/root/chroot/install_piratebox.sh > /dev/null"
 	@echo ""
 
-copy_helpers:
-	@echo "## Copy helpers..."
-	sudo cp ./helpers/99-wifi.rules $(ROOT_FOLDER)/etc/udev/rules.d/
-	sudo cp ./helpers/detect-wifi.sh $(ROOT_FOLDER)/opt/piratebox/bin/
-	sudo cp ./helpers/pi-starter.sh $(ROOT_FOLDER)/opt/piratebox/bin/
-	sudo cp ./helpers/usb_share.sh $(ROOT_FOLDER)/opt/piratebox/bin/
-	@echo ""
-
 chroot_cleanup:
 	@echo "## Cleaning up chroot..."
 	- sudo mv $(ROOT_FOLDER)/etc/resolv.conf.bak $(ROOT_FOLDER)/etc/resolv.conf
@@ -176,6 +166,3 @@ package:
 	@echo "## Packaging image for distribution..."
 	zip $(ZIPPED_FILENAME) $(IMAGE_FILENAME)
 	@echo ""
-
-#format_only: get_lodevice format free_lo
-#create_arch_image: $(IMAGE_FILENAME) partitions get_lodevice format prepare_environment install_files umount free_lo

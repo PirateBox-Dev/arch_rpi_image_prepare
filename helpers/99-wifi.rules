@@ -1,1 +1,0 @@
-KERNEL=="wlan*", RUN+="/bin/sh -c /opt/piratebox/bin/pi-starter.sh"

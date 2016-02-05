@@ -24,3 +24,12 @@ chmod -R g+rw $PIRATEBOX_PATH/share
 
 # Touch the file where the time is saved to update it to the current time
 touch /var/lib/systemd/clock
+
+# Place MOTD
+cp $PIRATEBOX_PATH/rpi/motd.txt /etc/motd
+
+# Move udev rules to their place
+cp $PIRATEBOX_PATH/rpi/udev/* /etc/udev/rules.d/
+
+# Move the services to their place
+cp $PIRATEBOX_PATH/rpi/services/* /etc/systemd/system/
