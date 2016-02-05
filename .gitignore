@@ -5,4 +5,6 @@ dev_node_name
 *latest.tar.gz
 mount
 staging_packages
-*.img.tar.gz
+*.zip
+piratebox-ws
+packages/staging/
