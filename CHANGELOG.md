@@ -13,8 +13,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * Support for RPi Zero
 * Set TIMESAVE_FORMAT
 * Build from specific piratebox webserver branch
-* Fallback to connect to WiFi network if no AP enabled WiFi stick was found
-* Helper to enable USB share via UUID
 
 ### Changed
 * No need to start qemu manually - everything is now done via chroot

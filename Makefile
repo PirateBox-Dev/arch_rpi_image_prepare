@@ -28,7 +28,7 @@ MOUNT_FOLDER:=./mount
 BOOT_FOLDER:=$(MOUNT_FOLDER)/boot
 ROOT_FOLDER:=$(MOUNT_FOLDER)/root
 
-SRC_PACKAGE_FOLDER:="./packages/prebuild"
+SRC_PACKAGE_FOLDER:="./packages"
 TGT_PACKAGE_FOLDER:=$(ROOT_FOLDER)/prebuild
 
 SRC_CHROOT_FOLDER:=./chroot
