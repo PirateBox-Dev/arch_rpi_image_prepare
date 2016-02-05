@@ -1,4 +1,10 @@
-image_file*
+*image_file*
+*.img
 *.swp
 dev_node_name
-ArchLinuxARM-rpi-latest.tar.gz
+*latest.tar.gz
+mount
+staging_packages
+*.zip
+piratebox-ws
+packages/staging/
