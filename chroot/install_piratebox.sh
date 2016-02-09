@@ -34,6 +34,8 @@ cp $PIRATEBOX_PATH/rpi/udev/* /etc/udev/rules.d/
 # Move the services to their place
 cp $PIRATEBOX_PATH/rpi/services/* /etc/systemd/system/
 
+# Enable I2C support
+echo device_tree_param=i2c_arm=on >> /boot/config.txt
 # Load modules for RealTimeClock support
 echo snd-bcm2835 >> /etc/modules-load.d/raspberrypi.conf
 echo i2c-bcm2835 >> /etc/modules-load.d/raspberrypi.conf
