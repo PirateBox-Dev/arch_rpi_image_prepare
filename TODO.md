@@ -1,13 +1,12 @@
 ## Just a short list of TODO's
 
-### For current release
+### Backlog
 
 * [ ] Add shout outs for the people involved in testing (waiting for TheExpertNoob)
-* [x] Do not copy hostapd config files, instead parse the available one
-  * [x] Delete directories with config files
-* [x] Move scripts to the piratebox ws repository where it makes sense
-  * [x] move all scripts from helpers
-  * [x] adapt piratebox install script
+
+### For next release
+
+* [ ] Make sure the Makefile is compatible to "older" systems, do not use fancy options that are not supported through all versions of wget and similar
 
 ### Maybe later
 
