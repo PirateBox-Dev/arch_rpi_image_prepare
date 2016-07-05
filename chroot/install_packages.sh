@@ -45,6 +45,9 @@ pacman --needed --noconfirm -S python2 lighttpd bash iw hostapd dnsmasq \
 pacman --needed --noconfirm -S radvd php php-cgi php-sqlite lftp imagemagick \
   php-gd
 
+## Packages for support of I2C Real Time Clock modules, like DS3231
+pacman --needed --noconfirm -S i2c-tools
+
 #### Create Package-PreBuild for start-stop-daemon
 build_aur start-stop-daemon "https://aur.archlinux.org/cgit/aur.git/snapshot/start-stop-daemon.tar.gz"
 build_aur proftpd "https://aur.archlinux.org/cgit/aur.git/snapshot/proftpd.tar.gz"

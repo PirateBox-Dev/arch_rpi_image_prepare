@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [1.0.7]
 ### Added
 * CHANGELOG.md file
 * alarm user is now member of sudo group
