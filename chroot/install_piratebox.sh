@@ -34,6 +34,12 @@ cp $PIRATEBOX_PATH/rpi/udev/* /etc/udev/rules.d/
 # Move the services to their place
 cp $PIRATEBOX_PATH/rpi/services/* /etc/systemd/system/
 
+# Disable system-resolver (blocks dnsmasq)
+systemctl disable systemd-resolved.service 
+
+# Disable possible default dnsmasq 
+systemctl disable dnsmasq
+
 # Enable I2C support
 echo device_tree_param=i2c_arm=on >> /boot/config.txt
 # Load modules for RealTimeClock support
