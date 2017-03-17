@@ -47,3 +47,6 @@ echo snd-bcm2835 >> /etc/modules-load.d/raspberrypi.conf
 echo i2c-bcm2835 >> /etc/modules-load.d/raspberrypi.conf
 echo i2c-dev 	 >> /etc/modules-load.d/raspberrypi.conf
 echo rtc-ds1307  >> /etc/modules-load.d/raspberrypi.conf
+
+# Setup default wifi config
+echo "wlan0" >> /boot/wifi_card.conf"
