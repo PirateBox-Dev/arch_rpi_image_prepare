@@ -49,4 +49,4 @@ echo i2c-dev 	 >> /etc/modules-load.d/raspberrypi.conf
 echo rtc-ds1307  >> /etc/modules-load.d/raspberrypi.conf
 
 # Setup default wifi config
-echo "wlan0" >> /boot/wifi_card.conf"
+echo "wlan0" >> "/boot/wifi_card.conf"
