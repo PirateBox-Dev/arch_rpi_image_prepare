@@ -11,7 +11,7 @@ To create an image you will need to have the following tools available on your s
 * fdisk
 * bc
 * qemu-system-arm
-* qemu-user-static
+* qemu-user-static (binfmt-support might be needed)
 * pv
 * zip
 
