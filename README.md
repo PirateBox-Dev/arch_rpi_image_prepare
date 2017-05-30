@@ -115,6 +115,7 @@ There are only two images needed to support all different Raspberry Pi boards.
 * Raspberry Pi 1 B
 * Raspberry Pi 1 B+
 * Raspberry Pi Zero
+* Raspberry Pi Zero W
 
 ### piratebox-rpi2.img
 * Raspberry Pi 2 B
