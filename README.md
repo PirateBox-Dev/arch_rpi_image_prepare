@@ -37,6 +37,8 @@ There is a script in place that will build the images for *RPi 1 and RPi 2*, sim
 ./build_all.sh
 ```
 
+The resulting zip files are stored in a freshly created folder "images".
+
 ### Packaging the images
 To zip the image simply invoke the dist target:
 ```Bash
