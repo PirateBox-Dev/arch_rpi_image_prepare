@@ -1,7 +1,7 @@
 # Default build variables, they may be passed via command line
 ARCH?=rpi
 BUILD?=$(shell date +%d-%m-%Y)
-VERSION?="1.1.3-1"
+VERSION?="1.1.3"
 SOURCE?="piratebox"
 BRANCH?="master"
 
@@ -14,6 +14,8 @@ ifeq ($(ARCH),rpi2)
 ARCH_URL=http://archlinuxarm.org/os/ArchLinuxARM-rpi-2-latest.tar.gz
 ARCH_FILE:=ArchLinuxARM-rpi-2-latest.tar.gz
 endif
+
+.PHONY: all package dist clean cleanall
 
 PIRATEBOX_WS_GIT:=https://github.com/PirateBox-Dev/PirateBoxScripts_Webserver.git
 
@@ -80,9 +82,8 @@ format: get_lodevice
 	@echo ""
 
 free_lo:
-ifneq ("$(wildcard $(LO_DEVICE))", "")
-	sudo losetup -d $(LO_DEVICE)
-endif
+	@echo  "losetup detach  $(LO_DEVICE)"
+	- test ! -z "$(LO_DEVICE)" && sudo losetup -d $(LO_DEVICE)
 
 $(ARCH_FILE):
 	@echo "## Obtaining root filesystem..."
