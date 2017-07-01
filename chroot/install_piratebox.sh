@@ -36,6 +36,8 @@ cp $PIRATEBOX_PATH/rpi/services/* /etc/systemd/system/
 
 # Disable system-resolver (blocks dnsmasq)
 systemctl disable systemd-resolved.service 
+rm /etc/resolv.conf
+touch /etc/resolv.conf
 
 # Disable possible default dnsmasq 
 systemctl disable dnsmasq
