@@ -2,6 +2,7 @@
 PIRATEBOX_PATH=/opt/piratebox
 CONF_PATH=$PIRATEBOX_PATH/conf/piratebox.conf
 BIN_PATH=$PIRATEBOX_PATH/bin
+BUILD="$1"
 
 systemctl enable sshd
 ln /usr/bin/python2 /usr/bin/python
@@ -12,10 +13,8 @@ tar xzf *.tar.gz
 mv piratebox/piratebox /opt
 rm -r ./*.tar.gz
 
-$($BIN_PATH/install_piratebox.sh "${CONF_PATH}" part2 > /dev/null)
-$($BIN_PATH/install_piratebox.sh "${CONF_PATH}" imageboard > /dev/null)
-
-sed -i 's:TIMESAVE_FORMAT="":TIMESAVE_FORMAT="+%C%g%m%d %H%M":' $CONF_PATH
+$($BIN_PATH/install_piratebox.sh part2 > /dev/null)
+$($BIN_PATH/install_piratebox.sh imageboard > /dev/null)
 
 # Add minidlna user to nogroup and allow the group to read and write files
 usermod -a -G nogroup minidlna
@@ -23,10 +22,13 @@ chmod -R g+rw $PIRATEBOX_PATH/tmp
 chmod -R g+rw $PIRATEBOX_PATH/share
 
 # Touch the file where the time is saved to update it to the current time
+sed -i -e 's|TIMESAVE="$PIRATEBOX_FOLDER/share/timesave_file"|TIMESAVE="/var/lib/systemd/clock"' "$CONF_PATH"
 touch /var/lib/systemd/clock
 
 # Place MOTD
+sed -i  -e "s|00-00-0000|${BUILD}|" "$PIRATEBOX_PATH/rpi/motd.txt"
 cp $PIRATEBOX_PATH/rpi/motd.txt /etc/motd
+
 
 # Move udev rules to their place
 cp $PIRATEBOX_PATH/rpi/udev/* /etc/udev/rules.d/
@@ -35,11 +37,11 @@ cp $PIRATEBOX_PATH/rpi/udev/* /etc/udev/rules.d/
 cp $PIRATEBOX_PATH/rpi/services/* /etc/systemd/system/
 
 # Disable system-resolver (blocks dnsmasq)
-systemctl disable systemd-resolved.service 
+systemctl disable systemd-resolved.service
 rm /etc/resolv.conf
 touch /etc/resolv.conf
 
-# Disable possible default dnsmasq 
+# Disable possible default dnsmasq
 systemctl disable dnsmasq
 
 # Enable I2C support
