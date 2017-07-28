@@ -22,7 +22,7 @@ chmod -R g+rw $PIRATEBOX_PATH/tmp
 chmod -R g+rw $PIRATEBOX_PATH/share
 
 # Touch the file where the time is saved to update it to the current time
-sed -i -e 's|TIMESAVE="$PIRATEBOX_FOLDER/share/timesave_file"|TIMESAVE="/var/lib/systemd/clock"' "$CONF_PATH"
+sed -i -e 's|TIMESAVE="$PIRATEBOX_FOLDER/share/timesave_file"|TIMESAVE="/var/lib/systemd/clock|"' "$CONF_PATH"
 touch /var/lib/systemd/clock
 
 # Place MOTD
