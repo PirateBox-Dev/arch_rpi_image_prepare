@@ -146,7 +146,7 @@ chroot_install:
 	sudo chroot $(ROOT_FOLDER) sh -c "/root/chroot/configure_sudo.sh > /dev/null"
 	@echo ""
 	@echo "# Installing PirateBox..."
-	sudo chroot $(ROOT_FOLDER) sh -c "/root/chroot/install_piratebox.sh > /dev/null"
+	sudo chroot $(ROOT_FOLDER) sh -c "/root/chroot/install_piratebox.sh "$(BUILD)"  > /dev/null"
 	@echo ""
 
 chroot_cleanup:
