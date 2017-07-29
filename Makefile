@@ -93,6 +93,9 @@ $(ARCH_FILE):
 $(PIRATEBOX_PACKAGE_FOLDER):
 	@echo "## Obtaining piratebox scripts..."
 	git clone $(PIRATEBOX_WS_GIT) $(PIRATEBOX_PACKAGE_FOLDER) > /dev/null
+## Hotfix for Development folder breaking checkout
+	test -e $(PIRATEBOX_PACKAGE_FOLDER)/$(BRANCH) && \
+	   	cd $(PIRATEBOX_PACKAGE_FOLDER) && git checkout origin/$(BRANCH)
 	cd $(PIRATEBOX_PACKAGE_FOLDER) && git checkout $(BRANCH) > /dev/null
 	@echo ""
 
