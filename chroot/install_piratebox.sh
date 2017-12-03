@@ -5,7 +5,6 @@ BIN_PATH=$PIRATEBOX_PATH/bin
 BUILD="$1"
 
 systemctl enable sshd
-ln /usr/bin/python2 /usr/bin/python
 groupadd nogroup && usermod -a -G nogroup nobody
 
 cd /root
