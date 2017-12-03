@@ -31,7 +31,10 @@ build_aur(){
 ## Read some build info, like architecture CARCH
 . /etc/makepkg.conf
 
-pacman --needed --noconfirm -Sy base-devel
+## Update baseOS
+pacman --noconfirm -Syu 
+
+pacman --needed --noconfirm -S base-devel
 
 ##--- additional wifi stuff
 ## verify ... $SUDO pacman --noconfirm -r /mnt/image -S dkms-8188eu dkms-8192cu
