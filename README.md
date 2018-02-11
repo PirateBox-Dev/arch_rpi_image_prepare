@@ -11,7 +11,7 @@ To create an image you will need to have the following tools available on your s
 * fdisk
 * bc
 * qemu-system-arm
-* qemu-user-static
+* qemu-user-static (binfmt-support might be needed)
 * pv
 * zip
 
@@ -36,6 +36,8 @@ There is a script in place that will build the images for *RPi 1 and RPi 2*, sim
 ```Bash
 ./build_all.sh
 ```
+
+The resulting zip files are stored in a freshly created folder "images".
 
 ### Packaging the images
 To zip the image simply invoke the dist target:
@@ -115,6 +117,7 @@ There are only two images needed to support all different Raspberry Pi boards.
 * Raspberry Pi 1 B
 * Raspberry Pi 1 B+
 * Raspberry Pi Zero
+* Raspberry Pi Zero W
 
 ### piratebox-rpi2.img
 * Raspberry Pi 2 B
