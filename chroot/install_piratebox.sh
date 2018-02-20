@@ -18,6 +18,13 @@ fi
 systemctl enable sshd
 groupadd nogroup && usermod -a -G nogroup nobody
 
+# Some other system configuration to make the system working with UTF8
+echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+locale-gen
+mv /etc/locale.conf /etc/locale.conf.old
+echo 'LANG="en_US.UTF-8"' > /etc/locale.conf
+
+
 cd /root
 tar xzf *.tar.gz
 mv piratebox/piratebox /opt
