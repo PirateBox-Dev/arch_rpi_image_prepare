@@ -11,6 +11,8 @@ if echo "${VERSION}" | grep -q "${NEXT}" ; then
     IS_NEXT="yes"
 else
     echo "Running PirateBox configuration in 1.1.x mode"
+    # We need to link python2 to python
+    ln /usr/bin/python2 /usr/bin/python
 fi
 
 systemctl enable sshd
