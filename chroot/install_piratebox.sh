@@ -3,6 +3,7 @@ PIRATEBOX_PATH=/opt/piratebox
 CONF_PATH=$PIRATEBOX_PATH/conf/piratebox.conf
 BIN_PATH=$PIRATEBOX_PATH/bin
 BUILD="$1"
+NEW_HOSTNAME="piratebox"
 
 systemctl enable sshd
 groupadd nogroup && usermod -a -G nogroup nobody
@@ -29,6 +30,8 @@ touch /var/lib/systemd/clock
 sed -i  -e "s|00-00-0000|${BUILD}|" "$PIRATEBOX_PATH/rpi/motd.txt"
 cp $PIRATEBOX_PATH/rpi/motd.txt /etc/motd
 
+# Set system's hostname to PirateBox
+echo "${NEW_HOSTNAME}" > /etc/hostname
 
 # Move udev rules to their place
 cp $PIRATEBOX_PATH/rpi/udev/* /etc/udev/rules.d/
