@@ -30,6 +30,10 @@ MOUNT_FOLDER:=./mount
 BOOT_FOLDER:=$(MOUNT_FOLDER)/boot
 ROOT_FOLDER:=$(MOUNT_FOLDER)/root
 
+#Package cache
+CACHE_FOLDER:=./pkg_cache/$(ARCH)/
+CHROOT_CACHE:=$(ROOT_FOLDER)/var/cache/pacman/pkg
+
 SRC_PACKAGE_FOLDER:="./packages"
 TGT_PACKAGE_FOLDER:=$(ROOT_FOLDER)/prebuild
 
@@ -44,12 +48,12 @@ NEEDED_SECTOR_COUNT=$(shell echo ${IMAGESIZE} / ${BLOCKSIZE} | bc )
 LO_DEVICE=
 
 all: $(ARCH_FILE) $(IMAGE_FILENAME) partition format mount_image  \
-	install_files chroot_install \
+	install_files mount_cache chroot_install umount_cache \
 	chroot_cleanup umount free_lo
 
 dist: all package
 
-$(MOUNT_FOLDER) $(BOOT_FOLDER) $(ROOT_FOLDER):
+$(MOUNT_FOLDER) $(BOOT_FOLDER) $(ROOT_FOLDER) $(CACHE_FOLDER):
 	@mkdir -p $@
 
 $(IMAGE_FILENAME):
@@ -104,10 +108,19 @@ build_piratebox: $(PIRATEBOX_PACKAGE_FOLDER)
 	cd $(PIRATEBOX_PACKAGE_FOLDER) && make
 	@echo ""
 
-mount_image: $(BOOT_FOLDER) $(ROOT_FOLDER) get_lodevice
+mount_image: $(BOOT_FOLDER) $(ROOT_FOLDER) $(CACHE_FOLDER) get_lodevice
 	@echo "## Mounting image..."
 	sudo mount "$(LO_DEVICE)p1" $(BOOT_FOLDER)
 	sudo mount "$(LO_DEVICE)p2" $(ROOT_FOLDER)
+	@echo ""
+
+mount_cache:
+	@echo "## Mounting package cache..."
+	sudo mount -o bind  "$(CACHE_FOLDER)" "$(CHROOT_CACHE)"
+
+umount_cache:
+	@echo "## Unmounting package cache..."
+	- sudo umount $(CHROOT_CACHE)
 	@echo ""
 
 umount:
@@ -155,6 +168,8 @@ chroot_install:
 chroot_cleanup:
 	@echo "## Cleaning up chroot..."
 	- sudo mv $(ROOT_FOLDER)/etc/resolv.conf.bak $(ROOT_FOLDER)/etc/resolv.conf
+	@echo "Cleaning up image..."
+	- sudo chroot $(ROOT_FOLDER) sh -c "pacman --noconfirm -Scc"
 	@echo ""
 
 clean: chroot_cleanup umount free_lo
@@ -167,6 +182,7 @@ clean: chroot_cleanup umount free_lo
 cleanall: clean
 	rm -rf $(PIRATEBOX_PACKAGE_FOLDER) > /dev/null
 	rm -f $(ARCH_FILE) > /dev/null
+	rm -rf $(CACHE_FOLDER) > /dev/null
 
 package:
 	@echo "## Packaging image for distribution..."

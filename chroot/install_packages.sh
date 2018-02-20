@@ -63,5 +63,3 @@ build_aur proftpd "https://aur.archlinux.org/cgit/aur.git/snapshot/proftpd.tar.g
 #-- aquire (pre) built package
 pacman --needed --noconfirm -U /prebuild/*pkg.tar.xz
 
-## cleanup Image
-pacman --noconfirm -Scc
