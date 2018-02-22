@@ -167,9 +167,9 @@ chroot_install:
 
 chroot_cleanup:
 	@echo "## Cleaning up chroot..."
-	- sudo mv $(ROOT_FOLDER)/etc/resolv.conf.bak $(ROOT_FOLDER)/etc/resolv.conf
 	@echo "Cleaning up image..."
 	- sudo chroot $(ROOT_FOLDER) sh -c "pacman --noconfirm -Scc"
+	# - sudo mv $(ROOT_FOLDER)/etc/resolv.conf.bak $(ROOT_FOLDER)/etc/resolv.conf
 	@echo ""
 
 clean: chroot_cleanup umount free_lo
