@@ -56,7 +56,11 @@ cp $PIRATEBOX_PATH/rpi/motd.txt /etc/motd
 
 # Create some default links to the PBXUSER home directory
 ln -s "${PIRATEBOX_PATH}/share/Shared"  "/home/${PBX_USER}/PirateBox_Shared"
-ln -s "${PIRATEBOX_PATH}/share/content" "/home/${PBX_USER}/PirateBox_www"
+ln -s "${PIRATEBOX_PATH}/share/content" "/home/${PBX_USER}/PirateBox_www-content"
+ln -s "${PIRATEBOX_PATH}/conf" "/home/${PBX_USER}/PirateBox_conf"
+
+# Make sure config files are writeable to the current PBXUSER
+chown -R "${PBX_USER}" /opt/piratebox/conf/*
 
 # Set system's hostname to PirateBox
 echo "${NEW_HOSTNAME}" > /etc/hostname
