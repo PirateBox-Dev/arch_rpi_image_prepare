@@ -74,7 +74,8 @@ cp $PIRATEBOX_PATH/rpi/services/* /etc/systemd/system/
 # Disable system-resolver (blocks dnsmasq)
 systemctl disable systemd-resolved.service
 rm /etc/resolv.conf
-touch /etc/resolv.conf
+echo "# DNS Server from https://blog.uncensoreddns.org " >> /etc/resolv.conf
+echo "#nameserver 91.239.100.100 " >> /etc/resolv.conf
 
 # Disable possible default dnsmasq
 systemctl disable dnsmasq
