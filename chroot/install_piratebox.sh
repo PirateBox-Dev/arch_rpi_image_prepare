@@ -3,10 +3,18 @@ PIRATEBOX_PATH=/opt/piratebox
 CONF_PATH=$PIRATEBOX_PATH/conf/piratebox.conf
 BIN_PATH=$PIRATEBOX_PATH/bin
 BUILD="$1"
+VERSION="$2"
 NEW_HOSTNAME="piratebox"
-
 PBX_USER="pbxuser"
 PBX_GRP="pbxuser"
+IS_NEXT="no"
+NEXT="2."
+
+if echo "${VERSION}" | grep -q "${NEXT}" ; then
+    IS_NEXT="yes"
+else
+    echo "Running PirateBox configuration in 1.1.x mode"
+fi
 
 systemctl enable sshd
 
@@ -24,8 +32,13 @@ sed -e "s|nobody|${PBX_USER}|g" \
     -e "s|nogroup|${PBX_GRP}|g" \
     -i "${PIRATEBOX_PATH}/conf/lighttpd/lighttpd.conf"
 
-$($BIN_PATH/install_piratebox.sh part2 > /dev/null)
-$($BIN_PATH/install_piratebox.sh imageboard > /dev/null)
+if [ "$IS_NEXT" = "yes" ] ; then
+    $($BIN_PATH/install_piratebox.sh part2 > /dev/null)
+    $($BIN_PATH/install_piratebox.sh imageboard > /dev/null)
+else
+    $($BIN_PATH/install_piratebox.sh "${CONF_PATH}" part2 > /dev/null)
+    $($BIN_PATH/install_piratebox.sh "${CONF_PATH}" imageboard > /dev/null)
+fi
 
 # Add minidlna user to nogroup and allow the group to read and write files
 usermod -a -G ${PBX_GRP}  minidlna
@@ -65,10 +78,10 @@ systemctl disable dnsmasq
 # Enable I2C support
 echo device_tree_param=i2c_arm=on >> /boot/config.txt
 # Load modules for RealTimeClock support
-echo snd-bcm2835 >> /etc/modules-load.d/raspberrypi.conf
-echo i2c-bcm2835 >> /etc/modules-load.d/raspberrypi.conf
-echo i2c-dev 	 >> /etc/modules-load.d/raspberrypi.conf
-echo rtc-ds1307  >> /etc/modules-load.d/raspberrypi.conf
+echo "snd-bcm2835" >> /etc/modules-load.d/raspberrypi.conf
+echo "i2c-bcm2835" >> /etc/modules-load.d/raspberrypi.conf
+echo "i2c-dev" 	   >> /etc/modules-load.d/raspberrypi.conf
+echo "rtc-ds1307"  >> /etc/modules-load.d/raspberrypi.conf
 
 # Setup default wifi config
 echo "wlan0" >> "/boot/wifi_card.conf"

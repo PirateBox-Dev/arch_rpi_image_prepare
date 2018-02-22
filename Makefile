@@ -1,7 +1,7 @@
 # Default build variables, they may be passed via command line
 ARCH?=rpi
 BUILD?=$(shell date +%d-%m-%Y)
-VERSION?="1.1.3"
+VERSION?="1.1.4"
 SOURCE?="piratebox"
 BRANCH?="master"
 
@@ -94,7 +94,7 @@ $(PIRATEBOX_PACKAGE_FOLDER):
 	@echo "## Obtaining piratebox scripts..."
 	git clone $(PIRATEBOX_WS_GIT) $(PIRATEBOX_PACKAGE_FOLDER) > /dev/null
 ## Hotfix for Development folder breaking checkout
-	test -e $(PIRATEBOX_PACKAGE_FOLDER)/$(BRANCH) && \
+	- test -e $(PIRATEBOX_PACKAGE_FOLDER)/$(BRANCH) && \
 	   	cd $(PIRATEBOX_PACKAGE_FOLDER) && git checkout origin/$(BRANCH)
 	cd $(PIRATEBOX_PACKAGE_FOLDER) && git checkout $(BRANCH) > /dev/null
 	@echo ""
@@ -152,7 +152,7 @@ chroot_install:
 	sudo chroot $(ROOT_FOLDER) sh -c "/root/chroot/configure_sudo.sh > /dev/null"
 	@echo ""
 	@echo "# Installing PirateBox..."
-	sudo chroot $(ROOT_FOLDER) sh -c "/root/chroot/install_piratebox.sh "$(BUILD)"  > /dev/null"
+	sudo chroot $(ROOT_FOLDER) sh -c "/root/chroot/install_piratebox.sh "$(BUILD)"  "$(VERSION)" > /dev/null"
 	@echo ""
 
 chroot_cleanup:
