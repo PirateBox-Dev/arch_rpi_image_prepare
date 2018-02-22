@@ -8,3 +8,4 @@ staging_packages
 *.zip
 piratebox-ws
 packages/staging/
+pkg_cache
