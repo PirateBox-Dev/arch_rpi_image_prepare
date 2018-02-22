@@ -93,3 +93,7 @@ echo "rtc-ds1307"  >> /etc/modules-load.d/raspberrypi.conf
 
 # Setup default wifi config
 echo "wlan0" >> "/boot/wifi_card.conf"
+
+# Prepare minidlna configuration
+cp /etc/minidlna.conf /etc/minidlna.conf.bkp
+cp /opt/piratebox/src/linux.example.minidlna.conf /etc/minidlna.conf
