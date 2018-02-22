@@ -62,6 +62,9 @@ ln -s "${PIRATEBOX_PATH}/conf" "/home/${PBX_USER}/PirateBox_conf"
 # Make sure config files are writeable to the current PBXUSER
 chown -R "${PBX_USER}" /opt/piratebox/conf/*
 
+# Add PirateBox' bin pathes to user bash lookup path
+echo "export PATH=$PATH:${PIRATEBOX_PATH}/bin:${PIRATEBOX_PATH}/rpi/bin" >> /home/${PBX_USER}/.bashrc
+
 # Set system's hostname to PirateBox
 echo "${NEW_HOSTNAME}" > /etc/hostname
 
