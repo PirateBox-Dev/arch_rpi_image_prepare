@@ -31,7 +31,10 @@ build_aur(){
 ## Read some build info, like architecture CARCH
 . /etc/makepkg.conf
 
-pacman --needed --noconfirm -Sy base-devel
+## Update baseOS
+pacman --noconfirm -Syu 
+
+pacman --needed --noconfirm -S base-devel
 
 ##--- additional wifi stuff
 ## verify ... $SUDO pacman --noconfirm -r /mnt/image -S dkms-8188eu dkms-8192cu
@@ -39,7 +42,11 @@ pacman --needed --noconfirm -Sy base-devel
 ## Basic dependencies
 pacman --needed --noconfirm -S python2 lighttpd bash iw hostapd dnsmasq \
   bridge-utils avahi wget wireless_tools netctl perl iptables zip unzip cronie \
-  net-tools community/perl-cgi minidlna wpa_supplicant
+  net-tools community/perl-cgi minidlna wpa_supplicant parted wiringpi batctl
+
+## Store a copy of the latest hostapd in the prebuild package folder for switching
+##   the versions
+cp -v $( ls -1 /var/cache/pacman/pkg/hostapd-2* | tail -n 1 ) /prebuild/hostapd/
 
 ## PHP related dependencies
 pacman --needed --noconfirm -S radvd php php-cgi php-sqlite lftp imagemagick \
@@ -48,6 +55,11 @@ pacman --needed --noconfirm -S radvd php php-cgi php-sqlite lftp imagemagick \
 ## Packages for support of I2C Real Time Clock modules, like DS3231
 pacman --needed --noconfirm -S i2c-tools
 
+## Enable installed php modules
+sed -i -e 's|;extension=pdo_sqlite.so|extension=pdo_sqlite.so|' \
+       -e 's|;extension=gd.so|extension=gd.so|' \
+       /etc/php/php.ini
+
 #### Create Package-PreBuild for start-stop-daemon
 build_aur start-stop-daemon "https://aur.archlinux.org/cgit/aur.git/snapshot/start-stop-daemon.tar.gz"
 build_aur proftpd "https://aur.archlinux.org/cgit/aur.git/snapshot/proftpd.tar.gz"
@@ -55,5 +67,3 @@ build_aur proftpd "https://aur.archlinux.org/cgit/aur.git/snapshot/proftpd.tar.g
 #-- aquire (pre) built package
 pacman --needed --noconfirm -U /prebuild/*pkg.tar.xz
 
-## cleanup Image
-pacman --noconfirm -Scc
