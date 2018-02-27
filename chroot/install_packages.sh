@@ -32,7 +32,7 @@ build_aur(){
 . /etc/makepkg.conf
 
 ## Update baseOS
-pacman --noconfirm -Syu 
+pacman --noconfirm -Syu
 
 pacman --needed --noconfirm -S base-devel
 
@@ -55,6 +55,7 @@ pacman --needed --noconfirm -S i2c-tools
 sed -i -e 's|;extension=pdo_sqlite.so|extension=pdo_sqlite.so|' \
        -e 's|;extension=gd.so|extension=gd.so|' \
        /etc/php/php.ini
+
 
 #### Create Package-PreBuild for start-stop-daemon
 build_aur start-stop-daemon "https://aur.archlinux.org/cgit/aur.git/snapshot/start-stop-daemon.tar.gz"

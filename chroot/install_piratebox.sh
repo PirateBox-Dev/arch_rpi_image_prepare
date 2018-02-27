@@ -40,10 +40,14 @@ else
     $($BIN_PATH/install_piratebox.sh "${CONF_PATH}" imageboard > /dev/null)
 fi
 
-# Add minidlna user to nogroup and allow the group to read and write files
-usermod -a -G ${PBX_GRP}  minidlna
 chmod -R g+rw $PIRATEBOX_PATH/tmp
 chmod -R g+rw $PIRATEBOX_PATH/share
+
+## Create copy of minidlna script, that it runs with our user
+sed -e "s|User=minidlna|User=${PBX_USER}|g" \
+    -e "s|Group=minidlna|Group=${PBX_GRP}|g" \
+    /usr/lib/systemd/system/minidlna.service \
+    > /etc/systemd/system/
 
 # Touch the file where the time is saved to update it to the current time
 systemctl enable cronie
