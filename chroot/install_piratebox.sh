@@ -14,9 +14,18 @@ if echo "${VERSION}" | grep -q "${NEXT}" ; then
     IS_NEXT="yes"
 else
     echo "Running PirateBox configuration in 1.1.x mode"
+    # We need to link python2 to python
+    ln /usr/bin/python2 /usr/bin/python
 fi
 
 systemctl enable sshd
+
+# Some other system configuration to make the system working with UTF8
+echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+locale-gen
+mv /etc/locale.conf /etc/locale.conf.old
+echo 'LANG="en_US.UTF-8"' > /etc/locale.conf
+
 
 cd /root
 tar xzf *.tar.gz

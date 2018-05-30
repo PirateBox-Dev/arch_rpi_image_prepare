@@ -42,7 +42,11 @@ pacman --needed --noconfirm -S base-devel
 ## Basic dependencies
 pacman --needed --noconfirm -S python2 lighttpd bash iw hostapd dnsmasq \
   bridge-utils avahi wget wireless_tools netctl perl iptables zip unzip cronie \
-  net-tools community/perl-cgi minidlna wpa_supplicant parted wiringpi
+  net-tools community/perl-cgi minidlna wpa_supplicant parted wiringpi batctl
+
+## Store a copy of the latest hostapd in the prebuild package folder for switching
+##   the versions
+cp -v $( ls -1 /var/cache/pacman/pkg/hostapd-2* | tail -n 1 ) /prebuild/hostapd/
 
 ## PHP related dependencies
 pacman --needed --noconfirm -S radvd php php-cgi php-sqlite lftp imagemagick \
@@ -64,5 +68,3 @@ build_aur proftpd "https://aur.archlinux.org/cgit/aur.git/snapshot/proftpd.tar.g
 #-- aquire (pre) built package
 pacman --needed --noconfirm -U /prebuild/*pkg.tar.xz
 
-## cleanup Image
-pacman --noconfirm -Scc
