@@ -45,5 +45,5 @@ for arch in "rpi" "rpi2" ; do
   make dist ARCH=$arch $DO_BRANCH $DO_VERSION
   sync
   mv *.img.zip images
-  make clean ARCH=$arch $DO_BRANCH $DO_VERSION
+  #make clean ARCH=$arch $DO_BRANCH $DO_VERSION
 done
