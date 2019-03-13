@@ -1,5 +1,5 @@
 # Arch RPI Image Prepare
-This repository contains tools to create a 2GB SD card image based upon latest arch sources including all dependencies for PirateBox.
+This repository contains tools to create a 4GB SD card image based upon latest arch sources including all dependencies for PirateBox.
 
 ## Required Tools
 To create an image you will need to have the following tools available on your system:
