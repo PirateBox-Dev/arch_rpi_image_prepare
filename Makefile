@@ -40,8 +40,8 @@ TGT_PACKAGE_FOLDER:=$(ROOT_FOLDER)/prebuild
 SRC_CHROOT_FOLDER:=./chroot
 TGT_CHROOT_FOLDER:=$(ROOT_FOLDER)/root/chroot
 
-# Imagesize should be 2GB
-IMAGESIZE:=$(shell echo "2 * 1024 * 1024 * 1024" | bc)
+# Imagesize should be 4GB
+IMAGESIZE:=$(shell echo "4 * 1024 * 1024 * 1024" | bc)
 BLOCKSIZE=512
 NEEDED_SECTOR_COUNT=$(shell echo ${IMAGESIZE} / ${BLOCKSIZE} | bc )
 
@@ -53,6 +53,10 @@ all: $(ARCH_FILE) $(IMAGE_FILENAME) partition format mount_image  \
 
 dist: all package
 
+sleep_for_close:
+	@echo "Sleeping 30s before umount"
+	@sleep 30
+
 $(MOUNT_FOLDER) $(BOOT_FOLDER) $(ROOT_FOLDER) $(CACHE_FOLDER):
 	@mkdir -p $@
 
@@ -61,7 +65,7 @@ $(IMAGE_FILENAME):
 	@echo "* Filename\t$(IMAGE_FILENAME)"
 	@echo "* Blocksize\t$(BLOCKSIZE)"
 	@echo "* Sectors\t$(NEEDED_SECTOR_COUNT)"
-	@echo "* Total size\t$(IMAGESIZE) Bytes (2GB)"
+	@echo "* Total size\t$(IMAGESIZE) Bytes (4GB)"
 	@dd if=/dev/zero bs=$(BLOCKSIZE) count=$(NEEDED_SECTOR_COUNT) status=none | pv --size $(IMAGESIZE) | dd of=$@ bs=$(BLOCKSIZE) count=$(NEEDED_SECTOR_COUNT) status=none
 	@echo ""
 
@@ -118,12 +122,12 @@ mount_cache:
 	@echo "## Mounting package cache..."
 	sudo mount -o bind  "$(CACHE_FOLDER)" "$(CHROOT_CACHE)"
 
-umount_cache:
+umount_cache: sleep_for_close
 	@echo "## Unmounting package cache..."
 	- sudo umount $(CHROOT_CACHE)
 	@echo ""
 
-umount:
+umount: sleep_for_close
 	@echo "## Unmounting image..."
 	- sudo umount $(BOOT_FOLDER)
 	- sudo umount -R  $(ROOT_FOLDER)
