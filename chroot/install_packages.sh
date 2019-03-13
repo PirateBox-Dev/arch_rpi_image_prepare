@@ -2,6 +2,8 @@
 # Install dependencies in a chrooted environment
 # - Working internet connection required for downloading the dependencies
 
+set -e
+
 BRAND=piratebox
 
 ### Template for building different arch packages
@@ -32,8 +34,12 @@ build_aur(){
 . /etc/makepkg.conf
 
 ## Update baseOS
-pacman --noconfirm -Syu 
 
+pacman-key --init
+pacman-key --populate archlinuxarm
+
+pacman --noconfirm -Sy
+pacman --noconfirm -S archlinux-keyring
 pacman --needed --noconfirm -S base-devel
 
 ##--- additional wifi stuff
